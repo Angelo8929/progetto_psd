@@ -7,7 +7,7 @@ struct Lezione
 {
     char nome[MAX_STR];
     char istruttore[MAX_STR];
-    int posti_occupati[MAX_POSTI];
+    int capacita_massima;
     struct ClienteNode *clienti;
 };
 
@@ -49,4 +49,50 @@ LezioniList aggiungiLezione(struct Lezione lezione, LezioniList l)
     newLezione->next = l;
     l = newLezione;
     return l;
+}
+
+int ContaPartecipanti(struct ClienteNode *head)
+{
+
+    int count = 0;
+    struct ClienteNode *curr = head;
+
+    while (curr != NULL)
+    {
+        count++;
+        curr = curr->next;
+    }
+
+    return count;
+}
+
+void visualizzaDisponibilitaLezione(struct LezioneNode *head)
+{
+
+    if (head == NULL)
+    {
+        printf("Nessuna lezione programmata.\n");
+        return;
+    }
+
+    printf("Disponibilita' Lezioni: \n");
+
+    struct LezioneNode *curr = head;
+
+    while (curr != NULL)
+    {
+
+        struct Lezione lezioneattuale = curr->lezione;
+        int postiOccupati = ContaPartecipanti(lezioneattuale.clienti);
+        int capacita = lezioneattuale.capacita_massima;
+        int postiDisponibili = capacita - postiOccupati;
+
+        printf("Nome Lezione: %s\n", lezioneattuale.nome);
+        printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
+        printf("Posti Attualmente Occupati: %d\n", postiOccupati);
+        printf("Capacità Totale Lezione: %d\n", capacita);
+        printf("Posti Disponibili: %d\n", postiDisponibili);
+
+        curr = curr->next;
+    }
 }
