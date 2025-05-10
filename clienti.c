@@ -7,7 +7,7 @@ struct Cliente
     int id;
     char nome[MAX];
     char cognome[MAX];
-    Abbonamento abbonamento;
+    int abbonamento;
     struct Cliente *next;
 };
 
@@ -22,7 +22,7 @@ hashtable newHashtable(int size)
     int i;
     hashtable h = (struct hash *)malloc(sizeof(struct hash));
     h->size = size;
-    h->table = (struct item **)calloc(size, sizeof(struct item *));
+    h->table = (struct Cliente **)calloc(size, sizeof(struct item *));
     for (i = 0; i < size; i++)
     {
         h->table[i] = NULL;
@@ -42,8 +42,8 @@ int InsertHash(hashtable h, struct Cliente cliente)
             return (0);
         curr = curr->next;
     }
-    h->table[idx] = newItem(cliente.id, cliente.nome,
-                            cliente.cognome, cliente.abbonamento);
+    h->table[idx] = newCliente(cliente.id, cliente.nome,
+                               cliente.cognome, cliente.abbonamento);
     h->table[idx]->next = head;
     return (1);
 }

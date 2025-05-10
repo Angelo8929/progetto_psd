@@ -7,20 +7,12 @@ struct Lezione
 {
     char nome[MAX_STR];
     char istruttore[MAX_STR];
-    int capacita_massima;
-    struct ClienteNode *clienti;
 };
 
 struct LezioneNode
 {
     struct Lezione lezione;
     struct Lezione *next;
-};
-
-struct ClienteNode
-{
-    int id;
-    struct ClienteNode *next;
 };
 
 LezioniList newLezioniList()
@@ -49,21 +41,6 @@ LezioniList aggiungiLezione(struct Lezione lezione, LezioniList l)
     newLezione->next = l;
     l = newLezione;
     return l;
-}
-
-int ContaPartecipanti(struct ClienteNode *head)
-{
-
-    int count = 0;
-    struct ClienteNode *curr = head;
-
-    while (curr != NULL)
-    {
-        count++;
-        curr = curr->next;
-    }
-
-    return count;
 }
 
 void visualizzaDisponibilitaLezione(struct LezioneNode *head)
