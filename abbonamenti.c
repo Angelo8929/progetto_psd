@@ -1,7 +1,12 @@
 #include <time.h>
 #include "abbonamenti.h"
-struct Abbonamento
+// struct Abbonamento
+// {
+//     time_t data_scadenza;
+//     time_t data_inizio_validità;
+// };
+
+int verificaValiditaAbbonamento(int abbonamento)
 {
-    time_t data_scadenza;
-    time_t data_inizio_validità;
-};
+    return abbonamento == 1;
+}

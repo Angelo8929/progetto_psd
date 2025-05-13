@@ -1,8 +1,8 @@
 typedef struct hash *hashtable;
-
+typedef struct Cliente Cliente;
 hashtable newHashtable(int size);
 int aggiungiCliente(hashtable h, struct Cliente cliente);
-struct Cliente *newCliente(int id, char *nome, char *cognome);
+struct Cliente *newCliente(int id, char *nome, char *cognome, int abbonamento);
 struct Cliente *hashDelete(hashtable h, int key);
 void destroyHashtable(hashtable h);
 static void deleteList(struct Cliente *c);

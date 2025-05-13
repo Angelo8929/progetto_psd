@@ -1,4 +1,4 @@
 typedef struct Abbonamento *Abbonamento;
 
-int verificaValiditaAbbonamento(Abbonamento abbonamento);
-void visualizzaDurataAbbonamento(Abbonamento abbonamento);
+int verificaValiditaAbbonamento(int abbonamento);
+// void visualizzaDurataAbbonamento(Abbonamento abbonamento);

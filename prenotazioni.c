@@ -2,6 +2,8 @@
 #include "clienti.h"
 #include "prenotazioni.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #define MAX_STR 100
 struct Prenotazione
 {
@@ -14,7 +16,7 @@ struct Prenotazione
 struct PrenotazioneNode
 {
     struct Prenotazione prenotazione;
-    struct Prenotazione *next;
+    struct PrenotazioneNode *next;
 };
 
 int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id_lezione)
@@ -81,7 +83,7 @@ void visualizzaTutteLePrenotazioni(PrenotazioniList head_prenotazioni)
     while (current != NULL)
     {
 
-        printf("%-8d | %-10d | %-10d | %-9s | %s\n",
+        printf("%-8d | %-10d | %-10d | %-9s |\n",
                current->prenotazione.id_prenotazione,
                current->prenotazione.id_cliente,
                current->prenotazione.id_lezione,
@@ -154,7 +156,7 @@ PrenotazioniList creaPrenotazione(
     }
 
     // --- 2. Crea il nuovo nodo prenotazione ---
-    PrenotazioniList nuovo_nodo = (PrenotazioniList)malloc(sizeof(PrenotazioniList));
+    struct PrenotazioneNode *nuovo_nodo = malloc(sizeof(struct PrenotazioneNode));
     if (nuovo_nodo == NULL)
     {
         perror("Errore malloc per PrenotazioneNode");
@@ -164,7 +166,8 @@ PrenotazioniList creaPrenotazione(
     nuovo_nodo->prenotazione.id_prenotazione = count_id_prenotazione++;
     nuovo_nodo->prenotazione.id_cliente = id_cliente;
     nuovo_nodo->prenotazione.id_lezione = id_lezione;
-    strcpy(nuovo_nodo->prenotazione.orario, orario); // Ora corrente
+    strcpy(nuovo_nodo->prenotazione.orario, orario);
+    // Ora corrente
 
     // --- 3. Aggiungi in testa alla lista (più semplice) ---
     nuovo_nodo->next = head_prenotazioni;

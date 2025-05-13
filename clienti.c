@@ -2,6 +2,7 @@
 #include "abbonamenti.h"
 #include "clienti.h"
 #include <stdlib.h>
+#include <string.h>
 struct Cliente
 {
     int id;
@@ -38,7 +39,7 @@ int InsertHash(hashtable h, struct Cliente cliente)
     curr = head = h->table[idx];
     while (curr)
     {
-        if (strcmp(curr->id, cliente.id) == 0)
+        if (curr->id == cliente.id)
             return (0);
         curr = curr->next;
     }
@@ -48,7 +49,27 @@ int InsertHash(hashtable h, struct Cliente cliente)
     return (1);
 }
 
-int hash(int k, int m)
+int hashFun(int k, int m)
 {
     return k % m;
+}
+
+struct Cliente *newCliente(int id, char nome[], char cognome[], int abbonamento)
+{
+    struct Cliente *nuovo = malloc(sizeof(struct Cliente));
+    nuovo->id = id;
+    strcpy(nuovo->nome, nome);
+    strcpy(nuovo->cognome, cognome);
+    nuovo->abbonamento = abbonamento;
+
+    return nuovo;
+}
+
+static void deleteList(struct Cliente *p)
+{
+    if (p == NULL)
+        return;
+    deleteList(p->next);
+    free(p);
+    return;
 }

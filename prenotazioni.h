@@ -2,7 +2,7 @@
 #include "lezioni.h"
 
 typedef struct PrenotazioneNode *PrenotazioniList;
-
+typedef struct Prenotazione Prenotazione;
 PrenotazioniList newPrenotazioniList();
 int emptyPrenotazioniList(PrenotazioniList list);
 int aggiungiPrenotazione(PrenotazioniList list, struct Prenotazione prenotazione);

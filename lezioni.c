@@ -2,9 +2,14 @@
 #define MAX_POSTI 100
 #include "clienti.h"
 #include "lezioni.h"
+#include "prenotazioni.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 struct Lezione
 {
+    int id_lezione;
+    int capacita_massima;
     char nome[MAX_STR];
     char istruttore[MAX_STR];
 };
@@ -12,7 +17,7 @@ struct Lezione
 struct LezioneNode
 {
     struct Lezione lezione;
-    struct Lezione *next;
+    struct LezioneNode *next;
 };
 
 LezioniList newLezioniList()
@@ -43,33 +48,44 @@ LezioniList aggiungiLezione(struct Lezione lezione, LezioniList l)
     return l;
 }
 
-void visualizzaDisponibilitaLezione(struct LezioneNode *head)
+// void visualizzaDisponibilitaLezione(struct LezioneNode *head)
+// {
+
+//     if (head == NULL)
+//     {
+//         printf("Nessuna lezione programmata.\n");
+//         return;
+//     }
+
+//     printf("Disponibilita' Lezioni: \n");
+
+//     struct LezioneNode *curr = head;
+
+//     while (curr != NULL)
+//     {
+
+//         struct Lezione lezioneattuale = curr->lezione;
+//         int postiOccupati = contaPrenotazioniPerLezione(curr, curr->lezione.id_lezione);
+//         int capacita = lezioneattuale.capacita_massima;
+//         int postiDisponibili = capacita - postiOccupati;
+
+//         printf("Nome Lezione: %s\n", lezioneattuale.nome);
+//         printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
+//         printf("Posti Attualmente Occupati: %d\n", postiOccupati);
+//         printf("Capacità Totale Lezione: %d\n", capacita);
+//         printf("Posti Disponibili: %d\n", postiDisponibili);
+
+//         curr = curr->next;
+//     }
+// }
+
+Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore)
 {
+    Lezione lezione;
 
-    if (head == NULL)
-    {
-        printf("Nessuna lezione programmata.\n");
-        return;
-    }
-
-    printf("Disponibilita' Lezioni: \n");
-
-    struct LezioneNode *curr = head;
-
-    while (curr != NULL)
-    {
-
-        struct Lezione lezioneattuale = curr->lezione;
-        int postiOccupati = ContaPartecipanti(lezioneattuale.clienti);
-        int capacita = lezioneattuale.capacita_massima;
-        int postiDisponibili = capacita - postiOccupati;
-
-        printf("Nome Lezione: %s\n", lezioneattuale.nome);
-        printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
-        printf("Posti Attualmente Occupati: %d\n", postiOccupati);
-        printf("Capacità Totale Lezione: %d\n", capacita);
-        printf("Posti Disponibili: %d\n", postiDisponibili);
-
-        curr = curr->next;
-    }
+    lezione->id_lezione = id;
+    lezione->capacita_massima = capacita_massima;
+    strcpy(lezione->nome, nome);
+    strcpy(lezione->istruttore, istruttore);
+    return lezione;
 }
