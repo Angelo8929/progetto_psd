@@ -5,7 +5,15 @@ typedef struct PrenotazioneNode *PrenotazioniList;
 typedef struct Prenotazione Prenotazione;
 PrenotazioniList newPrenotazioniList();
 int emptyPrenotazioniList(PrenotazioniList list);
-int aggiungiPrenotazione(PrenotazioniList list, struct Prenotazione prenotazione);
+PrenotazioniList creaPrenotazione(
+    PrenotazioniList head_prenotazioni,
+    LezioniList head_lista,
+    int id_cliente,
+    int id_lezione,
+    char orario[],
+    int abbonamento_cliente_valido, // Semplificazione
+    int capacita_lezione_attuale    // Semplificazione
+);
 int contaPrenotazioniPerLezione(PrenotazioniList head_prenotazioni, int id_lezione);
 void visualizzaPrenotazioniCliente(PrenotazioniList head_prenotazioni, int id_cliente);
 void visualizzaTutteLePrenotazioni(PrenotazioniList head_prenotazioni);

@@ -107,6 +107,7 @@ void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni)
 
 PrenotazioniList creaPrenotazione(
     PrenotazioniList head_prenotazioni,
+    LezioniList head_lista,
     int id_cliente,
     int id_lezione,
     char orario[],
@@ -167,6 +168,8 @@ PrenotazioniList creaPrenotazione(
     nuovo_nodo->prenotazione.id_cliente = id_cliente;
     nuovo_nodo->prenotazione.id_lezione = id_lezione;
     strcpy(nuovo_nodo->prenotazione.orario, orario);
+    incrementaPostiOccupati(head_lista, id_lezione);
+
     // Ora corrente
 
     // --- 3. Aggiungi in testa alla lista (più semplice) ---
