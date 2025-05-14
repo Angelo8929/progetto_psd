@@ -1,5 +1,6 @@
 typedef struct hash *hashtable;
-typedef struct Cliente Cliente;
+typedef struct Cliente *Cliente;
+
 hashtable newHashtable(int size);
 int aggiungiCliente(hashtable h, struct Cliente cliente);
 struct Cliente *newCliente(int id, char *nome, char *cognome, int abbonamento);

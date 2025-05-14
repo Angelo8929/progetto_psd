@@ -23,7 +23,7 @@ hashtable newHashtable(int size)
     int i;
     hashtable h = (struct hash *)malloc(sizeof(struct hash));
     h->size = size;
-    h->table = (struct Cliente **)calloc(size, sizeof(struct item *));
+    h->table = (struct Cliente **)calloc(size, sizeof(struct Cliente *));
     for (i = 0; i < size; i++)
     {
         h->table[i] = NULL;
@@ -31,7 +31,7 @@ hashtable newHashtable(int size)
     return h;
 }
 
-int InsertHash(hashtable h, struct Cliente cliente)
+int aggiungiCliente(hashtable h, struct Cliente cliente)
 {
     int idx;
     struct Cliente *head, *curr;
@@ -61,6 +61,7 @@ struct Cliente *newCliente(int id, char nome[], char cognome[], int abbonamento)
     strcpy(nuovo->nome, nome);
     strcpy(nuovo->cognome, cognome);
     nuovo->abbonamento = abbonamento;
+    nuovo->next;
 
     return nuovo;
 }

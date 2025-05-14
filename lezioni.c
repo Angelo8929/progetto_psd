@@ -30,7 +30,7 @@ int emptyLezioniList(LezioniList l)
     return l == NULL;
 }
 
-LezioniList aggiungiLezione(struct Lezione lezione, LezioniList l)
+LezioniList aggiungiLezione(Lezione lezione, LezioniList l)
 {
     if (l == NULL)
     {
@@ -42,50 +42,64 @@ LezioniList aggiungiLezione(struct Lezione lezione, LezioniList l)
     {
         return l;
     }
-    newLezione->lezione = lezione;
+    newLezione->lezione = *lezione;
     newLezione->next = l;
     l = newLezione;
     return l;
 }
 
-// void visualizzaDisponibilitaLezione(struct LezioneNode *head)
-// {
+ void visualizzaDisponibilitaLezione(struct LezioneNode *head)
+ {
 
-//     if (head == NULL)
-//     {
-//         printf("Nessuna lezione programmata.\n");
-//         return;
-//     }
+     if (head == NULL)
+     {
+         printf("Nessuna lezione programmata.\n");
+        return;
+     }
 
-//     printf("Disponibilita' Lezioni: \n");
+     printf("Disponibilita' Lezioni: \n");
 
-//     struct LezioneNode *curr = head;
+     struct LezioneNode *curr = head;
 
-//     while (curr != NULL)
-//     {
+     while (curr != NULL)
+     {
 
-//         struct Lezione lezioneattuale = curr->lezione;
-//         int postiOccupati = contaPrenotazioniPerLezione(curr, curr->lezione.id_lezione);
-//         int capacita = lezioneattuale.capacita_massima;
-//         int postiDisponibili = capacita - postiOccupati;
+        struct Lezione lezioneattuale = curr->lezione;
+         int postiOccupati = lezioneattuale.postiOccupati;
+        int capacita = lezioneattuale.capacita_massima;
+         int postiDisponibili = capacita - postiOccupati;
 
-//         printf("Nome Lezione: %s\n", lezioneattuale.nome);
-//         printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
-//         printf("Posti Attualmente Occupati: %d\n", postiOccupati);
-//         printf("Capacità Totale Lezione: %d\n", capacita);
-//         printf("Posti Disponibili: %d\n", postiDisponibili);
+         printf("Nome Lezione: %s\n", lezioneattuale.nome);
+        printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
+        printf("Posti Attualmente Occupati: %d\n", postiOccupati);
+         printf("Capacità Totale Lezione: %d\n", capacita);
+         printf("Posti Disponibili: %d\n", postiDisponibili);
 
-//         curr = curr->next;
-//     }
-// }
+         curr = curr->next;
+     }
+ }
 
 Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore)
 {
-    Lezione lezione;
+    Lezione lezione=malloc(sizeof(struct Lezione));
+    if(lezione==NULL){
+        printf("Memoria non allocata correttamente.\n");
+        exit(1);
+    }
 
     lezione->id_lezione = id;
     lezione->capacita_massima = capacita_massima;
     strcpy(lezione->nome, nome);
     strcpy(lezione->istruttore, istruttore);
     return lezione;
+}
+
+void LiberaLezioni(LezioniList lezioni){
+
+    while (lezioni != NULL) {
+        LezioniList tmp = lezioni;
+        lezioni = lezioni->next;
+        free(tmp);
+    }
+
 }
