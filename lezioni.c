@@ -40,6 +40,7 @@ LezioniList aggiungiLezione(Lezione lezione, LezioniList l)
         return l;
     }
     newLezione->lezione = *lezione;
+    newLezione->lezione = *lezione;
     newLezione->next = l;
     l = newLezione;
     return l;
@@ -78,7 +79,12 @@ void visualizzaDisponibilitaLezione(struct LezioneNode *head)
 
 Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore)
 {
-    Lezione lezione;
+    Lezione lezione = malloc(sizeof(struct Lezione));
+    if (lezione == NULL)
+    {
+        printf("Memoria non allocata correttamente.\n");
+        exit(1);
+    }
 
     lezione->id_lezione = id;
     lezione->capacita_massima = capacita_massima;
@@ -98,5 +104,16 @@ void incrementaPostiOccupati(LezioniList head, int id_lezione)
             break;
         }
         head = head->next;
+    }
+}
+
+void LiberaLezioni(LezioniList lezioni)
+{
+
+    while (lezioni != NULL)
+    {
+        LezioniList tmp = lezioni;
+        lezioni = lezioni->next;
+        free(tmp);
     }
 }

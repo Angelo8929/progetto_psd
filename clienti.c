@@ -29,7 +29,7 @@ hashtable newHashtable(int size)
     return h;
 }
 
-int InsertHash(hashtable h, Cliente cliente)
+int aggiungiCliente(hashtable h, struct Cliente cliente)
 {
 
     if (h == NULL)
