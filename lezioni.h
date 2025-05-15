@@ -6,3 +6,6 @@ Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore);
 LezioniList aggiungiLezione(Lezione lezione, LezioniList l);
 void visualizzaDisponibilitaLezione(LezioniList head);
 void incrementaPostiOccupati(LezioniList head, int id_lezione);
+void liberaLezioni(LezioniList lezioni);
+int getCapacita(Lezione lezione);
+int cercaLezione(LezioniList lezioni, int id_lezione);

@@ -8,6 +8,8 @@ int emptyPrenotazioniList(PrenotazioniList list);
 PrenotazioniList creaPrenotazione(
     PrenotazioniList head_prenotazioni,
     LezioniList head_lista,
+    hashtable h,
+    int size_tabella,
     int id_cliente,
     int id_lezione,
     char orario[],

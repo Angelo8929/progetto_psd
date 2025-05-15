@@ -29,7 +29,7 @@ hashtable newHashtable(int size)
     return h;
 }
 
-int aggiungiCliente(hashtable h, struct Cliente cliente)
+int aggiungiCliente(hashtable h, Cliente cliente)
 {
 
     if (h == NULL)
@@ -45,17 +45,18 @@ int aggiungiCliente(hashtable h, struct Cliente cliente)
     int idx;
     struct Cliente *head, *curr;
     idx = hashFun(cliente->id, h->size);
-    printf("valore di idx: %d", idx);
-    printf("h->size: %d", h->size);
-    curr = head = h->table[idx];
-    //  while (curr)
-    //  {
-    //      if (curr->id == cliente->id)
-    //          return (0);
-    //      curr = curr->next;
-    //  }
-    //  h->table[idx] = cliente;
-    //  h->table[idx]->next = head;
+    printf("valore di idx: %d\n", idx);
+    printf("h->size: %d\n", h->size);
+    head = h->table[idx];
+    curr = head;
+    while (curr)
+    {
+        if (curr->id == cliente->id)
+            return (0);
+        curr = curr->next;
+    }
+    h->table[idx] = cliente;
+    h->table[idx]->next = head;
     return (1);
 }
 
@@ -82,4 +83,38 @@ static void deleteList(struct Cliente *p)
     deleteList(p->next);
     free(p);
     return;
+}
+
+void destroyHashtable(hashtable h)
+{
+    int i;
+    for (i = 0; i < h->size; i++)
+    {
+        deleteList(h->table[i]);
+    }
+    free(h->table);
+    free(h);
+    return;
+}
+
+int getIdCliente(Cliente cliente)
+{
+    return cliente->id;
+}
+
+Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella)
+{
+    if (h == NULL || h->table == NULL)
+        return NULL;
+    int idx = hashFun(id_cliente, size_tabella);
+    struct Cliente *curr = h->table[idx];
+    while (curr != NULL)
+    {
+        if (curr->id == id_cliente)
+        {
+            return curr;
+        }
+        curr = curr->next;
+    }
+    return NULL;
 }

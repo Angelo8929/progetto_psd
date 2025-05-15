@@ -13,6 +13,7 @@ struct Lezione
     char nome[MAX_STR];
     char istruttore[MAX_STR];
     int postiOccupati;
+    char orario[6];
 };
 
 struct LezioneNode
@@ -66,12 +67,13 @@ void visualizzaDisponibilitaLezione(struct LezioneNode *head)
         int postiOccupati = lezioneattuale.postiOccupati;
         int capacita = lezioneattuale.capacita_massima;
         int postiDisponibili = capacita - postiOccupati;
-
+        printf("\n");
         printf("Nome Lezione: %s\n", lezioneattuale.nome);
         printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
         printf("Posti Attualmente Occupati: %d\n", postiOccupati);
         printf("Capacità Totale Lezione: %d\n", capacita);
         printf("Posti Disponibili: %d\n", postiDisponibili);
+        printf("\n");
 
         curr = curr->next;
     }
@@ -107,7 +109,7 @@ void incrementaPostiOccupati(LezioniList head, int id_lezione)
     }
 }
 
-void LiberaLezioni(LezioniList lezioni)
+void liberaLezioni(LezioniList lezioni)
 {
 
     while (lezioni != NULL)
@@ -116,4 +118,26 @@ void LiberaLezioni(LezioniList lezioni)
         lezioni = lezioni->next;
         free(tmp);
     }
+}
+
+int getCapacita(Lezione lezione)
+{
+    return lezione->capacita_massima;
+}
+
+int cercaLezione(LezioniList lezioni, int id_lezione)
+{
+    LezioniList temp = lezioni;
+    while (temp != NULL)
+    {
+        if (temp->lezione.id_lezione == id_lezione)
+        {
+            return 1;
+        }
+        else
+        {
+            temp = temp->next;
+        }
+    }
+    return 0;
 }

@@ -12,8 +12,8 @@ int main()
     hashtable clientiHash = newHashtable(10);
     Cliente c1 = newCliente(1, "Mario", "Rossi", 1);
     Cliente c2 = newCliente(2, "Luigi", "Verdi", 1);
-    InsertHash(clientiHash, c1);
-    InsertHash(clientiHash, c2);
+    aggiungiCliente(clientiHash, c1);
+    aggiungiCliente(clientiHash, c2);
 
     // === 2. Inizializzazione lista lezioni ===
     LezioniList lezioni = newLezioniList();
@@ -27,22 +27,22 @@ int main()
     PrenotazioniList prenotazioni = NULL;
 
     // === 4. Aggiunta prenotazioni ===
-    prenotazioni = creaPrenotazione(prenotazioni, 1, 100, "10:00", verificaValiditaAbbonamento(1), 3);
-    prenotazioni = creaPrenotazione(prenotazioni, 2, 100, "10:00", verificaValiditaAbbonamento(1), 3);
-    prenotazioni = creaPrenotazione(prenotazioni, 1, 200, "11:00", verificaValiditaAbbonamento(1), 2);
+    prenotazioni = creaPrenotazione(prenotazioni, lezioni, clientiHash, 10, 5, 100, "10:00", verificaValiditaAbbonamento(1), getCapacita(l1));
+    prenotazioni = creaPrenotazione(prenotazioni, lezioni, clientiHash, 10, 2, 300, "10:00", verificaValiditaAbbonamento(1), getCapacita(l2));
+    prenotazioni = creaPrenotazione(prenotazioni, lezioni, clientiHash, 10, 1, 200, "11:00", verificaValiditaAbbonamento(1), getCapacita(l2));
 
     // === 5. Visualizzazione prenotazioni per cliente ===
     visualizzaPrenotazioniCliente(prenotazioni, 1);
 
     // === 6. Visualizzazione disponibilità lezioni ===
-    visualizzaDisponibilitaLezione(lezioni, prenotazioni);
+    visualizzaDisponibilitaLezione(lezioni);
 
     // === 7. Cleanup ===
     liberaListaPrenotazioni(prenotazioni);
     destroyHashtable(clientiHash);
 
     // free per lezioni (non richiesto ora, ma buona pratica)
-    LiberaLezioni(lezioni);
+    liberaLezioni(lezioni);
 
     return 0;
 }

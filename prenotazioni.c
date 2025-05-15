@@ -108,6 +108,8 @@ void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni)
 PrenotazioniList creaPrenotazione(
     PrenotazioniList head_prenotazioni,
     LezioniList head_lista,
+    hashtable h,
+    int size_tabella,
     int id_cliente,
     int id_lezione,
     char orario[],
@@ -115,7 +117,19 @@ PrenotazioniList creaPrenotazione(
     int capacita_lezione_attuale    // Semplificazione
 )
 {
-    int count_id_prenotazione = 0;
+    static int count_id_prenotazione = 0;
+
+    if (cercaCliente(h, id_cliente, size_tabella) == NULL)
+    {
+        printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
+        return head_prenotazioni;
+    }
+    if (!cercaLezione(head_lista, id_lezione))
+    {
+        printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
+        return head_prenotazioni;
+    }
+
     // --- 1. Verifiche Preliminari ---
     // Nella realtà, qui interrogheresti i moduli Cliente e Lezione
     // Esempio:
