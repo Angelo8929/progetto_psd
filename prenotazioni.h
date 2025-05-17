@@ -18,7 +18,7 @@ PrenotazioniList creaPrenotazione(
 );
 
 PrenotazioniList aggiungiPrenotazione(PrenotazioniList head_prenotazioni, Prenotazione prenotazione);
-int contaPrenotazioniPerLezione(PrenotazioniList head_prenotazioni, int id_lezione);
+int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id_lezione);
 void visualizzaPrenotazioniCliente(PrenotazioniList head_prenotazioni, int id_cliente);
 void visualizzaTutteLePrenotazioni(PrenotazioniList head_prenotazioni);
 void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni);
