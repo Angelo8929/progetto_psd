@@ -19,6 +19,16 @@ struct PrenotazioneNode
     struct PrenotazioneNode *next;
 };
 
+PrenotazioniList newPrenotazioniList()
+{
+    return NULL;
+}
+
+PrenotazioniList emptyPrenotazioniList(PrenotazioniList list)
+{
+    return list == NULL;
+}
+
 int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id_lezione)
 {
     int conteggio = 0;
@@ -170,27 +180,38 @@ PrenotazioniList creaPrenotazione(
         temp = temp->next;
     }
 
-    // --- 2. Crea il nuovo nodo prenotazione ---
-    struct PrenotazioneNode *nuovo_nodo = malloc(sizeof(struct PrenotazioneNode));
-    if (nuovo_nodo == NULL)
+    Prenotazione prenotazione = malloc(sizeof(struct Prenotazione));
+    if (prenotazione == NULL)
     {
         perror("Errore malloc per PrenotazioneNode");
-        return head_prenotazioni; // o exit
+        exit(1); // o exit
     }
 
-    nuovo_nodo->prenotazione.id_prenotazione = count_id_prenotazione++;
-    nuovo_nodo->prenotazione.id_cliente = id_cliente;
-    nuovo_nodo->prenotazione.id_lezione = id_lezione;
-    strcpy(nuovo_nodo->prenotazione.orario, orario);
+    prenotazione->id_prenotazione = count_id_prenotazione++;
+    prenotazione->id_cliente = id_cliente;
+    prenotazione->id_lezione = id_lezione;
+    strcpy(prenotazione->orario, orario);
     incrementaPostiOccupati(head_lista, id_lezione);
 
     // Ora corrente
 
     // --- 3. Aggiungi in testa alla lista (più semplice) ---
-    nuovo_nodo->next = head_prenotazioni;
 
+    return prenotazione; // Restituisce la nuova testa della lista
+}
+
+PrenotazioniList aggiungiPrenotazione(PrenotazioniList prenotazioni, Prenotazione prenotazione)
+{
+
+    struct PrenotazioneNode *newPrenotazione = malloc(sizeof(struct PrenotazioneNode));
+    if (newLezione == NULL)
+    {
+        return prenotazioni;
+    }
+    newPrenotazione->prenotazione = *prenotazione;
+    newPrenotazione->next = prenotazioni;
+    prenotazioni = newPrenotazione;
     printf("Prenotazione ID %d creata con successo per cliente %d alla lezione %d.\n",
-           nuovo_nodo->prenotazione.id_prenotazione, id_cliente, id_lezione);
-
-    return nuovo_nodo; // Restituisce la nuova testa della lista
+           prenotazioni->prenotazione.id_prenotazione, prenotazioni->prenotazione.id_cliente, prenotazioni->prenotazione.id_lezione);
+    return prenotazioni;
 }

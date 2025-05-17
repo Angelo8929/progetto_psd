@@ -2,7 +2,7 @@ typedef struct LezioneNode *LezioniList;
 typedef struct Lezione *Lezione;
 LezioniList newLezioniList();
 int emptyLezioniList(LezioniList);
-Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore);
+Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore, char *orario);
 LezioniList aggiungiLezione(Lezione lezione, LezioniList l);
 void visualizzaDisponibilitaLezione(LezioniList head);
 void incrementaPostiOccupati(LezioniList head, int id_lezione);

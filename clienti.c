@@ -45,8 +45,6 @@ int aggiungiCliente(hashtable h, Cliente cliente)
     int idx;
     struct Cliente *head, *curr;
     idx = hashFun(cliente->id, h->size);
-    printf("valore di idx: %d\n", idx);
-    printf("h->size: %d\n", h->size);
     head = h->table[idx];
     curr = head;
     while (curr)

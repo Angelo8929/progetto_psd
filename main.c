@@ -17,8 +17,8 @@ int main()
 
     // === 2. Inizializzazione lista lezioni ===
     LezioniList lezioni = newLezioniList();
-    Lezione l1 = newLezione(100, 3, "Yoga", "Anna");
-    Lezione l2 = newLezione(200, 2, "Pilates", "Giulia");
+    Lezione l1 = newLezione(100, 3, "Yoga", "Anna", "10:00");
+    Lezione l2 = newLezione(200, 2, "Pilates", "Giulia", "11:00");
 
     lezioni = aggiungiLezione(l1, lezioni); // * perché newLezione restituisce un puntatore
     lezioni = aggiungiLezione(l2, lezioni);
