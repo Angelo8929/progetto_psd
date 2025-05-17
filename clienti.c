@@ -118,3 +118,21 @@ Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella)
     }
     return NULL;
 }
+
+void stampaClienti(hashtable h) {
+    if (h == NULL) {
+        printf("Hashtable non inizializzata.\n");
+        return;
+    }
+
+    printf("\n--- Elenco Clienti ---\n");
+    for (int i = 0; i < h->size; i++) {
+        struct Cliente *curr = h->table[i];
+        while (curr != NULL) {
+            printf("ID: %d | Nome: %s | Cognome: %s | Abbonamento: %d\n",
+                   curr->id, curr->nome, curr->cognome, curr->abbonamento);
+            curr = curr->next;
+        }
+    }
+    printf("----------------------\n");
+}

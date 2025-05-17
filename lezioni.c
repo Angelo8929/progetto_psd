@@ -47,7 +47,7 @@ LezioniList aggiungiLezione(Lezione lezione, LezioniList l)
     return l;
 }
 
-void visualizzaDisponibilitaLezione(struct LezioneNode *head)
+void visualizzaDisponibilitaLezione(LezioniList head)
 {
 
     if (head == NULL)
@@ -79,7 +79,7 @@ void visualizzaDisponibilitaLezione(struct LezioneNode *head)
     }
 }
 
-Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore)
+Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore, char* orario)
 {
     Lezione lezione = malloc(sizeof(struct Lezione));
     if (lezione == NULL)
@@ -93,6 +93,7 @@ Lezione newLezione(int id, int capacita_massima, char *nome, char *istruttore)
     strcpy(lezione->nome, nome);
     strcpy(lezione->istruttore, istruttore);
     lezione->postiOccupati = 0;
+    strcpy(lezione->orario, orario);
     return lezione;
 }
 

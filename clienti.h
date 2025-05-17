@@ -9,5 +9,5 @@ struct Cliente *hashDelete(hashtable h, int key);
 void destroyHashtable(hashtable h);
 static void deleteList(struct Cliente *c);
 int hashFun(int k, int m);
-int InsertHash(hashtable h, Cliente cliente);
 Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella);
+void stampaClienti(hashtable h);

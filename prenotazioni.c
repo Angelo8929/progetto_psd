@@ -19,6 +19,14 @@ struct PrenotazioneNode
     struct PrenotazioneNode *next;
 };
 
+PrenotazioniList newPrenotazioniList(){
+    return NULL;
+}
+
+int emptyPrenotazioniList(PrenotazioniList list){
+    return list == NULL;
+}
+
 int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id_lezione)
 {
     int conteggio = 0;
