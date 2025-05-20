@@ -134,11 +134,13 @@ Prenotazione creaPrenotazione(
     //     printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
     //     return head_prenotazioni;
     // }
-    // if (!cercaLezione(head_lista, id_lezione))
-    // {
-    //     printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
-    //     return head_prenotazioni;
-    // }
+    Lezione lezione_attuale = cercaLezione(head_lista, id_lezione);
+    if (lezione_attuale == NULL)
+    {
+
+        printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
+        return NULL;
+    }
 
     // --- 1. Verifiche Preliminari ---
     // Nella realtà, qui interrogheresti i moduli Cliente e Lezione
@@ -146,7 +148,7 @@ Prenotazione creaPrenotazione(
     if (!getAbbonamento(h, id_cliente, size_tabella))
     {
         printf("Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
-        return head_prenotazioni;
+        return NULL;
     }
 
     // if (!getAbbonamento(h, id_cliente, size_tabella))
@@ -155,15 +157,15 @@ Prenotazione creaPrenotazione(
     //     return head_prenotazioni;
     // }
 
-    int posti_occupati = contaPrenotazioniAttivePerLezione(head_prenotazioni, id_lezione);
+    int posti_occupati = getPostiOccupati(lezione_attuale);
     // Esempio:
-    int capacita_max_lezione = get_capacita_lezione(id_lezione);
+    int capacita_max_lezione = getCapacita(lezione_attuale);
 
     if (posti_occupati >= capacita_max_lezione)
     {
         printf("Errore: La lezione %d è piena (Occupati: %d, Capacità: %d).\n",
                id_lezione, posti_occupati, capacita_max_lezione);
-        return head_prenotazioni;
+        return NULL;
     }
 
     // (Opzionale) Verifica se il cliente è già prenotato per questa lezione

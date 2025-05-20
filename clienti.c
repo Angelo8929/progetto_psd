@@ -71,7 +71,7 @@ Cliente newCliente(int id, char nome[], char cognome[], int abbonamento)
 
 static void deleteList(struct Cliente *p)
 {
-    struct item *nextNode;
+    struct Cliente *nextNode;
     while (p != NULL)
     {
         nextNode = p->next; // Salva il riferimento al nodo successivo.
@@ -146,4 +146,9 @@ int getAbbonamento(hashtable h, int id_cliente, int size_tabella)
     if (cliente == NULL)
         return -1; // Cliente non trovato
     return cliente->abbonamento;
+}
+
+int getSize(hashtable h)
+{
+    return h->size;
 }

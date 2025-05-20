@@ -126,19 +126,24 @@ int getCapacita(Lezione lezione)
     return lezione->capacita_massima;
 }
 
-int cercaLezione(LezioniList lezioni, int id_lezione)
+Lezione cercaLezione(LezioniList lezioni, int id_lezione)
 {
     LezioniList temp = lezioni;
     while (temp != NULL)
     {
         if (temp->lezione.id_lezione == id_lezione)
         {
-            return 1;
+            return &(temp->lezione);
         }
         else
         {
             temp = temp->next;
         }
     }
-    return 0;
+    return NULL;
+}
+
+int getPostiOccupati(Lezione lezione)
+{
+    return lezione->postiOccupati;
 }

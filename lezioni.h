@@ -8,4 +8,5 @@ void visualizzaDisponibilitaLezione(LezioniList head);
 void incrementaPostiOccupati(LezioniList head, int id_lezione);
 void liberaLezioni(LezioniList lezioni);
 int getCapacita(Lezione lezione);
-int cercaLezione(LezioniList lezioni, int id_lezione);
+Lezione cercaLezione(LezioniList lezioni, int id_lezione);
+int getPostiOccupati(Lezione lezione);

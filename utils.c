@@ -13,7 +13,12 @@ LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni)
     int capacita_massima;
     char orario[6];
     FILE *fp = fopen(nome_file, "r");
-    while (fscanf(fp, "%d %d %s %s %s", &id_lezione, &capacita_massima, nome, istruttore, orario) != 5)
+    if (fp == NULL)
+    {
+        perror("Errore nell'apertura del file");
+        exit(1);
+    }
+    while (fscanf(fp, "%d %d %s %s %s", &id_lezione, &capacita_massima, nome, istruttore, orario) == 5)
     {
         Lezione lezione = newLezione(id_lezione, capacita_massima, nome, istruttore, orario);
         lezioni = aggiungiLezione(lezione, lezioni);
@@ -42,9 +47,9 @@ PrenotazioniList carica_prenotazioni_file(char *nome_file, PrenotazioniList pren
     int id_cliente, id_lezione;
     char orario[6];
     FILE *fp = fopen(nome_file, "r");
-    while (fscanf(fp, "%d %d %s", &id_cliente, &id_lezione, orario) != 3)
+    while (fscanf(fp, "%d %d %s", &id_cliente, &id_lezione, orario) == 3)
     {
-        Prenotazione prenotazione = creaPrenotazione(prenotazioni, lezioni, id_cliente, id_lezione, orario);
+        Prenotazione prenotazione = creaPrenotazione(prenotazioni, lezioni, h, getSize(h), id_cliente, id_lezione, orario);
         prenotazioni = aggiungiPrenotazione(prenotazioni, prenotazione);
     }
     fclose(fp);

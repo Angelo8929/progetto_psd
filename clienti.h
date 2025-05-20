@@ -12,3 +12,4 @@ int hashFun(int k, int m);
 Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella);
 void stampaClienti(hashtable h);
 int getAbbonamento(hashtable h, int id_cliente, int size_tabella);
+int getSize(hashtable h);

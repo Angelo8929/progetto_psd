@@ -7,7 +7,7 @@
 #include "abbonamenti.h"
 #include "utils.h"
 
-int main(int argc, char *argv[])
+int main()
 {
     hashtable clienti = newHashtable(100);
     LezioniList lezioni = newLezioniList();
@@ -63,8 +63,6 @@ int main(int argc, char *argv[])
             printf("Scelta non valida");
         }
     } while (scelta != 0);
-
-    stampaClienti(clienti);
 
     return 0;
 }
