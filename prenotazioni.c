@@ -24,7 +24,7 @@ PrenotazioniList newPrenotazioniList()
     return NULL;
 }
 
-PrenotazioniList emptyPrenotazioniList(PrenotazioniList list)
+int emptyPrenotazioniList(PrenotazioniList list)
 {
     return list == NULL;
 }
@@ -115,55 +115,54 @@ void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni)
     }
 }
 
-PrenotazioniList creaPrenotazione(
+Prenotazione creaPrenotazione(
     PrenotazioniList head_prenotazioni,
     LezioniList head_lista,
     hashtable h,
     int size_tabella,
     int id_cliente,
     int id_lezione,
-    char orario[],
-    int abbonamento_cliente_valido, // Semplificazione
-    int capacita_lezione_attuale    // Semplificazione
+    char orario[]
+    // int abbonamento_cliente_valido, // Semplificazione
+    // int capacita_lezione_attuale    // Semplificazione
 )
 {
     static int count_id_prenotazione = 0;
 
-    if (cercaCliente(h, id_cliente, size_tabella) == NULL)
-    {
-        printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
-        return head_prenotazioni;
-    }
-    if (!cercaLezione(head_lista, id_lezione))
-    {
-        printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
-        return head_prenotazioni;
-    }
+    // if (cercaCliente(h, id_cliente, size_tabella) == NULL)
+    // {
+    //     printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
+    //     return head_prenotazioni;
+    // }
+    // if (!cercaLezione(head_lista, id_lezione))
+    // {
+    //     printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
+    //     return head_prenotazioni;
+    // }
 
     // --- 1. Verifiche Preliminari ---
     // Nella realtà, qui interrogheresti i moduli Cliente e Lezione
     // Esempio:
-    // if (!cliente_ha_abbonamento_valido(id_cliente)) {
-    //     printf("Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
-    //     return head_prenotazioni;
-    // }
-    if (!abbonamento_cliente_valido)
+    if (!getAbbonamento(h, id_cliente, size_tabella))
     {
         printf("Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
         return head_prenotazioni;
     }
 
+    // if (!getAbbonamento(h, id_cliente, size_tabella))
+    // {
+    //     printf("Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
+    //     return head_prenotazioni;
+    // }
+
     int posti_occupati = contaPrenotazioniAttivePerLezione(head_prenotazioni, id_lezione);
     // Esempio:
-    // int capacita_max_lezione = get_capacita_lezione(id_lezione);
-    // if (posti_occupati >= capacita_max_lezione) {
-    //    printf("Errore: La lezione %d è piena.\n", id_lezione);
-    //    return head_prenotazioni;
-    // }
-    if (posti_occupati >= capacita_lezione_attuale)
+    int capacita_max_lezione = get_capacita_lezione(id_lezione);
+
+    if (posti_occupati >= capacita_max_lezione)
     {
         printf("Errore: La lezione %d è piena (Occupati: %d, Capacità: %d).\n",
-               id_lezione, posti_occupati, capacita_lezione_attuale);
+               id_lezione, posti_occupati, capacita_max_lezione);
         return head_prenotazioni;
     }
 
@@ -175,7 +174,7 @@ PrenotazioniList creaPrenotazione(
             temp->prenotazione.id_lezione == id_lezione)
         {
             printf("Errore: Il cliente %d è già prenotato per la lezione %d.\n", id_cliente, id_lezione);
-            return head_prenotazioni;
+            return NULL;
         }
         temp = temp->next;
     }
@@ -204,7 +203,7 @@ PrenotazioniList aggiungiPrenotazione(PrenotazioniList prenotazioni, Prenotazion
 {
 
     struct PrenotazioneNode *newPrenotazione = malloc(sizeof(struct PrenotazioneNode));
-    if (newLezione == NULL)
+    if (newPrenotazione == NULL)
     {
         return prenotazioni;
     }

@@ -32,11 +32,6 @@ hashtable newHashtable(int size)
 int aggiungiCliente(hashtable h, Cliente cliente)
 {
 
-    if (h == NULL)
-    {
-        fprintf(stderr, "Errore: la tabella hash non è stata inizializzata.\n");
-        return 0; // O un valore di errore appropriato
-    }
     if (cliente == NULL)
     {
         fprintf(stderr, "Errore: il cliente non è valido.\n");
@@ -76,21 +71,27 @@ Cliente newCliente(int id, char nome[], char cognome[], int abbonamento)
 
 static void deleteList(struct Cliente *p)
 {
-    if (p == NULL)
-        return;
-    deleteList(p->next);
-    free(p);
-    return;
+    struct item *nextNode;
+    while (p != NULL)
+    {
+        nextNode = p->next; // Salva il riferimento al nodo successivo.
+        free(p);            // Libera il nodo corrente.
+        p = nextNode;       // Passa al nodo successivo.
+    }
 }
 
 void destroyHashtable(hashtable h)
 {
     int i;
+    // Ciclo attraverso ogni indice della tabella hash.
     for (i = 0; i < h->size; i++)
     {
+        // Elimina la lista collegata in ogni indice della tabella.
         deleteList(h->table[i]);
     }
+    // Libera la memoria allocata per l'array di puntatori della tabella.
     free(h->table);
+    // Libera la memoria allocata per la struttura della tabella hash.
     free(h);
     return;
 }
@@ -117,20 +118,32 @@ Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella)
     return NULL;
 }
 
-void stampaClienti(hashtable h) {
-    if (h == NULL) {
+void stampaClienti(hashtable h)
+{
+    if (h == NULL)
+    {
         printf("Hashtable non inizializzata.\n");
         return;
     }
 
     printf("\n--- Elenco Clienti ---\n");
-    for (int i = 0; i < h->size; i++) {
+    for (int i = 0; i < h->size; i++)
+    {
         struct Cliente *curr = h->table[i];
-        while (curr != NULL) {
+        while (curr != NULL)
+        {
             printf("ID: %d | Nome: %s | Cognome: %s | Abbonamento: %d\n",
                    curr->id, curr->nome, curr->cognome, curr->abbonamento);
             curr = curr->next;
         }
     }
     printf("----------------------\n");
+}
+
+int getAbbonamento(hashtable h, int id_cliente, int size_tabella)
+{
+    Cliente cliente = cercaCliente(h, id_cliente, size_tabella);
+    if (cliente == NULL)
+        return -1; // Cliente non trovato
+    return cliente->abbonamento;
 }

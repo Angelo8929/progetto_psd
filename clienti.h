@@ -11,3 +11,4 @@ static void deleteList(struct Cliente *c);
 int hashFun(int k, int m);
 Cliente cercaCliente(hashtable h, int id_cliente, int size_tabella);
 void stampaClienti(hashtable h);
+int getAbbonamento(hashtable h, int id_cliente, int size_tabella);

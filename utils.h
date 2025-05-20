@@ -3,6 +3,6 @@
 #include "prenotazioni.h"
 #include "abbonamenti.h"
 
-void caricaClienti(hashtable h, char *filename);
-LezioniList caricaLezioni(char *filename);
-PrenotazioniList caricaPrenotazioni(char *filename, PrenotazioniList prenotazioni, hashtable h, LezioniList lezioni);
+void carica_clienti_file(char *nome_file, hashtable h);
+LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni);
+PrenotazioniList carica_prenotazioni_file(char *filename, PrenotazioniList prenotazioni, hashtable h, LezioniList lezioni);
