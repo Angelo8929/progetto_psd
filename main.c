@@ -28,6 +28,7 @@ int main()
         switch (scelta)
         {
         case 1:
+
             lezioni = carica_lezioni_file("lezioni.txt", lezioni);
             break;
 

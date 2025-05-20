@@ -129,11 +129,11 @@ Prenotazione creaPrenotazione(
 {
     static int count_id_prenotazione = 0;
 
-    // if (cercaCliente(h, id_cliente, size_tabella) == NULL)
-    // {
-    //     printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
-    //     return head_prenotazioni;
-    // }
+    if (cercaCliente(h, id_cliente, size_tabella) == NULL)
+    {
+        printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
+        return NULL;
+    }
     Lezione lezione_attuale = cercaLezione(head_lista, id_lezione);
     if (lezione_attuale == NULL)
     {

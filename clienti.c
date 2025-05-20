@@ -69,7 +69,7 @@ Cliente newCliente(int id, char nome[], char cognome[], int abbonamento)
     return nuovo;
 }
 
-static void deleteList(struct Cliente *p)
+void deleteList(struct Cliente *p)
 {
     struct Cliente *nextNode;
     while (p != NULL)

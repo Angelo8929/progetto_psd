@@ -50,7 +50,15 @@ PrenotazioniList carica_prenotazioni_file(char *nome_file, PrenotazioniList pren
     while (fscanf(fp, "%d %d %s", &id_cliente, &id_lezione, orario) == 3)
     {
         Prenotazione prenotazione = creaPrenotazione(prenotazioni, lezioni, h, getSize(h), id_cliente, id_lezione, orario);
-        prenotazioni = aggiungiPrenotazione(prenotazioni, prenotazione);
+        if (prenotazione == NULL)
+        {
+            printf("Prenotazione non effettuata\n");
+        }
+        else
+        {
+
+            prenotazioni = aggiungiPrenotazione(prenotazioni, prenotazione);
+        }
     }
     fclose(fp);
     return prenotazioni;
