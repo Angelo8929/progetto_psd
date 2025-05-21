@@ -10,6 +10,7 @@
 int main()
 {
     hashtable clienti = newHashtable(100);
+    int clienti_caricati = 0;
     LezioniList lezioni = newLezioniList();
     PrenotazioniList prenotazioni = newPrenotazioniList();
     int scelta;
@@ -28,12 +29,28 @@ int main()
         switch (scelta)
         {
         case 1:
+            if (lezioni == NULL)
+            {
 
-            lezioni = carica_lezioni_file("lezioni.txt", lezioni);
+                lezioni = carica_lezioni_file("lezioni.txt", lezioni);
+            }
+            else
+            {
+                printf("Lezioni gia' caricate\n");
+            }
             break;
 
         case 2:
-            carica_clienti_file("clienti.txt", clienti);
+            if (!clienti_caricati)
+            {
+
+                carica_clienti_file("clienti.txt", clienti);
+                clienti_caricati = 1;
+            }
+            else
+            {
+                printf("Clienti gia' caricati\n");
+            }
             break;
 
         case 3:

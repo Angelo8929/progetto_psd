@@ -1,3 +1,5 @@
 1 Mario Rossi 1
 2 Luca Bianchi 0
 3 Anna Verdi 1
+4 Tizio Caio 0
+5 Giuseppe Verdi 1
