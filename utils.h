@@ -3,6 +3,15 @@
 #include "prenotazioni.h"
 #include "abbonamenti.h"
 
-void carica_clienti_file(char *nome_file, hashtable h);
-LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni);
-PrenotazioniList carica_prenotazioni_file(char *filename, PrenotazioniList prenotazioni, hashtable h, LezioniList lezioni);
+// ===============================
+// Funzioni per il caricamento dei dati da File
+// ===============================
+
+// Carica i clienti da un file e li aggiunge alla hashtable
+    void carica_clienti_file(char *nome_file, hashtable h);
+
+// Carica le lezioni da un file e le aggiunge alla lista di lezioni    
+    LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni);
+
+// Carica le prenotazioni da un file e le aggiunge alla lista di prenotazioni    
+    PrenotazioniList carica_prenotazioni_file(char *filename, PrenotazioniList prenotazioni, hashtable h, LezioniList lezioni);
