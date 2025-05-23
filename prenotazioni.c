@@ -27,13 +27,13 @@ struct PrenotazioneNode
 };
 
 // Crea e restituisce una lista di prenotazioni vuota
-PrenotazioniList newPrenotazioniList()
+PrenotazioniList new_prenotazioni_list()
 {
     return NULL;
 }
 
 // Verifica se la lista di prenotazioni è vuota
-int emptyPrenotazioniList(PrenotazioniList list)
+int empty_prenotazioni_list(PrenotazioniList list)
 {
     return list == NULL;
 }
@@ -52,11 +52,11 @@ int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id
         }
         current = current->next; // Passa alla prenotazione successiva altrimenti
     }
-    return conteggio; 
+    return conteggio;
 }
 
 // Funzione per visualizzare le prenotazioni di un cliente specifico
-void visualizzaPrenotazioniCliente(PrenotazioniList head_prenotazioni, int id_cliente /*, LessonNode* head_lezioni per i nomi delle lezioni */)
+void visualizza_prenotazioni_cliente(PrenotazioniList head_prenotazioni, int id_cliente /*, LessonNode* head_lezioni per i nomi delle lezioni */)
 {
     PrenotazioniList current = head_prenotazioni;
     int trovate = 0;
@@ -69,8 +69,8 @@ void visualizzaPrenotazioniCliente(PrenotazioniList head_prenotazioni, int id_cl
     {
         if (current->prenotazione.id_cliente == id_cliente)
         {
-           
-            printf("%-15d | %-10d | %s\n", 
+
+            printf("%-15d | %-10d | %s\n",
                    current->prenotazione.id_prenotazione,
                    current->prenotazione.id_lezione,
                    current->prenotazione.orario);
@@ -87,7 +87,7 @@ void visualizzaPrenotazioniCliente(PrenotazioniList head_prenotazioni, int id_cl
 }
 
 // Funzione per visualizzare tutte le prenotazioni nella lista di prenotazioni
-void visualizzaTutteLePrenotazioni(PrenotazioniList head_prenotazioni)
+void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
 {
     PrenotazioniList current = head_prenotazioni;
     if (current == NULL)
@@ -114,9 +114,9 @@ void visualizzaTutteLePrenotazioni(PrenotazioniList head_prenotazioni)
 }
 
 // Funzione per liberare la memoria occupata dalla lista di prenotazioni
-void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni)
+void libera_prenotazioni(PrenotazioniList head_prenotazioni)
 {
-    PrenotazioniList current = head_prenotazioni; 
+    PrenotazioniList current = head_prenotazioni;
     PrenotazioniList next_node;
     while (current != NULL)
     {
@@ -128,7 +128,7 @@ void liberaListaPrenotazioni(PrenotazioniList head_prenotazioni)
 
 // Funzione per creare una nuova prenotazione
 // Restituisce un puntatore alla nuova prenotazione
-Prenotazione creaPrenotazione(
+Prenotazione crea_prenotazione(
     PrenotazioniList head_prenotazioni,
     LezioniList head_lista,
     hashtable h,
@@ -156,7 +156,6 @@ Prenotazione creaPrenotazione(
         return NULL;
     }
 
-
     // Verifica se il cliente ha un abbonamento valido
     if (!getAbbonamento(h, id_cliente, size_tabella))
     {
@@ -164,9 +163,8 @@ Prenotazione creaPrenotazione(
         return NULL;
     }
 
-
     int posti_occupati = getPostiOccupati(lezione_attuale); // Otteniamo il numero di posti occupait
-    
+
     int capacita_max_lezione = getCapacita(lezione_attuale); // Otteniamo la capacità massima della lezione
 
     // Verifica se la lezione non accetta più prenotazioni
@@ -197,7 +195,7 @@ Prenotazione creaPrenotazione(
         exit(1); // o exit
     }
 
-    prenotazione->id_prenotazione = count_id_prenotazione++; 
+    prenotazione->id_prenotazione = count_id_prenotazione++;
     prenotazione->id_cliente = id_cliente;
     prenotazione->id_lezione = id_lezione;
     strcpy(prenotazione->orario, orario);
@@ -208,7 +206,7 @@ Prenotazione creaPrenotazione(
 
 // Funzione per aggiungere una prenotazione alla lista di prenotazioni
 // Restituisce la nuova lista di prenotazioni
-PrenotazioniList aggiungiPrenotazione(PrenotazioniList prenotazioni, Prenotazione prenotazione)
+PrenotazioniList aggiungi_prenotazione(PrenotazioniList prenotazioni, Prenotazione prenotazione)
 {
 
     struct PrenotazioneNode *newPrenotazione = malloc(sizeof(struct PrenotazioneNode));

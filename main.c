@@ -12,6 +12,7 @@ int main()
     hashtable clienti = newHashtable(100);                 // Crea una hashtable per i clienti vuota di 100 elementi
     LezioniList lezioni = newLezioniList();                // Crea una lista di lezioni vuota
     PrenotazioniList prenotazioni = newPrenotazioniList(); // Crea una lista di prenotazioni vuota
+    int clienti_caricati;
 
     int scelta; // Variabile per la scelta dell'utente
 
