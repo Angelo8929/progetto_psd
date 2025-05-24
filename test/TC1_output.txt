@@ -1,0 +1,13 @@
+Prenotazioni: 
+
+ID prenotazione: 0
+ID cliente: 1
+ID lezione: 100
+
+ID prenotazione: 1
+ID cliente: 3
+ID lezione: 100
+
+ID prenotazione: 2
+ID cliente: 5
+ID lezione: 200
