@@ -6,13 +6,14 @@
 #include "prenotazioni.h"
 #include "abbonamenti.h"
 #include "utils.h"
+#include "list.h"
 
 int main()
 {
-    hashtable clienti = newHashtable(100);                 // Crea una hashtable per i clienti vuota di 100 elementi
-    LezioniList lezioni = newLezioniList();                // Crea una lista di lezioni vuota
-    PrenotazioniList prenotazioni = newPrenotazioniList(); // Crea una lista di prenotazioni vuota
-    int clienti_caricati;
+    hashtable clienti = new_hashtable(100);    // Crea una hashtable per i clienti vuota di 100 elementi
+    LezioniList lezioni = newList();           // Crea una lista di lezioni vuota
+    PrenotazioniList prenotazioni = newList(); // Crea una lista di prenotazioni vuota
+    int clienti_caricati = 0;
 
     int scelta; // Variabile per la scelta dell'utente
 
@@ -57,25 +58,25 @@ int main()
             break;
 
         case 3:
-            prenotazioni = carica_prenotazioni_file("prenotazioni.txt", prenotazioni, clienti, lezioni);
+            prenotazioni = carica_prenotazioni_file("tc1.txt", prenotazioni, clienti, lezioni);
             break;
 
         case 4:
-            visualizzaTutteLePrenotazioni(prenotazioni);
+            visualizza_prenotazioni(prenotazioni);
             break;
 
         case 5:
-            visualizzaDisponibilitaLezione(lezioni);
+            visualizza_lezioni(lezioni);
             break;
 
         case 6:
-            stampaClienti(clienti);
+            visualizza_clienti(clienti);
             break;
 
         case 0:
-            destroyHashtable(clienti);
-            liberaLezioni(lezioni);
-            liberaListaPrenotazioni(prenotazioni);
+            destroy_hashtable(clienti);
+            libera_lezioni(lezioni);
+            libera_prenotazioni(prenotazioni);
 
             printf("Uscita...");
             break;

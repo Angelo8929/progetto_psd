@@ -1,1 +1,5 @@
 Nessuna prenotazione nel sistema
+--- Disponibilità lezioni dopo le prenotazioni ---
+ID Lezione: 100 | Occupati: 0 | Disponibili: 3 | Capacita: 3
+ID Lezione: 200 | Occupati: 0 | Disponibili: 2 | Capacita: 2
+ID Lezione: 300 | Occupati: 0 | Disponibili: 5 | Capacita: 5

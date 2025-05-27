@@ -11,3 +11,7 @@ ID lezione: 100
 ID prenotazione: 2
 ID cliente: 5
 ID lezione: 200
+--- Disponibilità lezioni dopo le prenotazioni ---
+ID Lezione: 100 | Occupati: 2 | Disponibili: 1 | Capacita: 3
+ID Lezione: 200 | Occupati: 1 | Disponibili: 1 | Capacita: 2
+ID Lezione: 300 | Occupati: 0 | Disponibili: 5 | Capacita: 5

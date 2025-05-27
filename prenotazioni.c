@@ -1,6 +1,8 @@
 #include "lezioni.h"
 #include "clienti.h"
 #include "prenotazioni.h"
+#include "utils.h"
+#include "list.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -20,71 +22,12 @@ struct Prenotazione
 };
 
 // Nodo per la lista concatenata di prenotazioni
-struct PrenotazioneNode
-{
-    struct Prenotazione prenotazione;
-    struct PrenotazioneNode *next;
-};
 
 // Crea e restituisce una lista di prenotazioni vuota
-PrenotazioniList new_prenotazioni_list()
-{
-    return NULL;
-}
-
-// Verifica se la lista di prenotazioni è vuota
-int empty_prenotazioni_list(PrenotazioniList list)
-{
-    return list == NULL;
-}
 
 // Conta il numero di prenotazioni attive per una lezione specifica dato il suo ID e ne restituisce il conteggio
-int contaPrenotazioniAttivePerLezione(PrenotazioniList head_prenotazioni, int id_lezione)
-{
-    int conteggio = 0;
-    PrenotazioniList current = head_prenotazioni; // Inizializza il puntatore corrente alla testa della lista
-
-    while (current != NULL) // Itera attraverso la lista di prenotazioni
-    {
-        if (current->prenotazione.id_lezione == id_lezione) // Se trova la prenotazione con l'ID lezione
-        {
-            conteggio++; // Incrementa il conteggio
-        }
-        current = current->next; // Passa alla prenotazione successiva altrimenti
-    }
-    return conteggio;
-}
 
 // Funzione per visualizzare le prenotazioni di un cliente specifico
-void visualizza_prenotazioni_cliente(PrenotazioniList head_prenotazioni, int id_cliente /*, LessonNode* head_lezioni per i nomi delle lezioni */)
-{
-    PrenotazioniList current = head_prenotazioni;
-    int trovate = 0;
-
-    printf("\n--- Prenotazioni per Cliente ID %d ---\n", id_cliente);
-    printf("ID Prenotazione | ID Lezione | Data Prenotazione\n");
-    printf("--------------------------------------------------\n");
-
-    while (current != NULL)
-    {
-        if (current->prenotazione.id_cliente == id_cliente)
-        {
-
-            printf("%-15d | %-10d | %s\n",
-                   current->prenotazione.id_prenotazione,
-                   current->prenotazione.id_lezione,
-                   current->prenotazione.orario);
-            trovate++;
-        }
-        current = current->next;
-    }
-
-    if (trovate == 0)
-    {
-        printf("Nessuna prenotazione attiva trovata per il cliente ID %d.\n", id_cliente);
-    }
-    printf("--------------------------------------------------\n\n");
-}
 
 // Funzione per visualizzare tutte le prenotazioni nella lista di prenotazioni
 void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
@@ -97,39 +40,66 @@ void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
     }
 
     printf("\n--- Tutte le Prenotazioni nel Sistema ---\n");
-    printf("ID Pren. | ID Cliente | ID Lezione | Stato     | Data Prenotazione\n");
+    printf("ID Pren. | ID Cliente | ID Lezione \n");
     printf("----------------------------------------------------------------------\n");
 
     while (current != NULL)
     {
-
-        printf("%-8d | %-10d | %-10d | %-9s |\n",
-               current->prenotazione.id_prenotazione,
-               current->prenotazione.id_cliente,
-               current->prenotazione.id_lezione,
-               current->prenotazione.orario);
-        current = current->next;
+        Prenotazione p = (Prenotazione)getFirst(current);
+        printf("%-8d | %-10d | %-10d |\n",
+               p->id_prenotazione,
+               p->id_cliente,
+               p->id_lezione);
+        current = tailList(current);
     }
     printf("----------------------------------------------------------------------\n\n");
 }
 
-// Funzione per liberare la memoria occupata dalla lista di prenotazioni
-void libera_prenotazioni(PrenotazioniList head_prenotazioni)
+void visualizza_prenotazioni_file(PrenotazioniList prenotazioni, char *nome_file)
 {
-    PrenotazioniList current = head_prenotazioni;
-    PrenotazioniList next_node;
-    while (current != NULL)
+    FILE *fp = fopen(nome_file, "w");
+    if (fp == NULL)
     {
-        next_node = current->next;
-        free(current);
-        current = next_node;
+        perror("Errore in apertura del file\n");
+        exit(1);
+    }
+    PrenotazioniList current = prenotazioni;
+    if (current == NULL)
+    {
+        fprintf(fp, "Nessuna prenotazione nel sistema\n");
+    }
+    else
+    {
+        fprintf(fp, "Prenotazioni: \n");
+        while (current != NULL)
+        {
+            Prenotazione p = (Prenotazione)getFirst(current);
+            fprintf(fp, "\n");
+            fprintf(fp, "ID prenotazione: %d\n", p->id_prenotazione);
+            fprintf(fp, "ID cliente: %d\n", p->id_cliente);
+            fprintf(fp, "ID lezione: %d", p->id_lezione);
+            fprintf(fp, "\n");
+            current = tailList(current);
+        }
+    }
+    fclose(fp);
+}
+
+// Funzione per liberare la memoria occupata dalla lista di prenotazioni
+void libera_prenotazioni(PrenotazioniList prenotazioni)
+{
+    while (prenotazioni != NULL)
+    {
+        Prenotazione p = (Prenotazione)getFirst(prenotazioni);
+        free(p);
+        prenotazioni = tailList(prenotazioni);
     }
 }
 
 // Funzione per creare una nuova prenotazione
 // Restituisce un puntatore alla nuova prenotazione
 Prenotazione crea_prenotazione(
-    PrenotazioniList head_prenotazioni,
+    PrenotazioniList prenotazioni,
     LezioniList head_lista,
     hashtable h,
     int size_tabella,
@@ -143,29 +113,29 @@ Prenotazione crea_prenotazione(
     static int count_id_prenotazione = 0;
 
     // Verifica se il cliente e la lezione esistono
-    if (cercaCliente(h, id_cliente, size_tabella) == NULL)
+    if (cerca_cliente(h, id_cliente, size_tabella) == NULL)
     {
-        printf("Errore: Il cliente con ID %d non esiste.\n", id_cliente);
+        fprintf(stderr, "Errore: Il cliente con ID %d non esiste.\n", id_cliente);
         return NULL;
     }
-    Lezione lezione_attuale = cercaLezione(head_lista, id_lezione);
+    Lezione lezione_attuale = cerca_lezione(head_lista, id_lezione);
     if (lezione_attuale == NULL)
     {
 
-        printf("Errore: La lezione con id %d non esiste.\n", id_lezione);
+        fprintf(stderr, "Errore: La lezione con id %d non esiste.\n", id_lezione);
         return NULL;
     }
 
     // Verifica se il cliente ha un abbonamento valido
-    if (!getAbbonamento(h, id_cliente, size_tabella))
+    if (!get_abbonamento(h, id_cliente, size_tabella))
     {
-        printf("Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
+        fprintf(stderr, "Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
         return NULL;
     }
 
-    int posti_occupati = getPostiOccupati(lezione_attuale); // Otteniamo il numero di posti occupait
+    int posti_occupati = get_posti_occupati(lezione_attuale); // Otteniamo il numero di posti occupait
 
-    int capacita_max_lezione = getCapacita(lezione_attuale); // Otteniamo la capacità massima della lezione
+    int capacita_max_lezione = get_capacita(lezione_attuale); // Otteniamo la capacità massima della lezione
 
     // Verifica se la lezione non accetta più prenotazioni
     if (posti_occupati >= capacita_max_lezione)
@@ -176,16 +146,17 @@ Prenotazione crea_prenotazione(
     }
 
     // Verifica se il cliente è già prenotato per questa lezione
-    PrenotazioniList temp = head_prenotazioni;
+    PrenotazioniList temp = prenotazioni;
     while (temp != NULL)
     {
-        if (temp->prenotazione.id_cliente == id_cliente &&
-            temp->prenotazione.id_lezione == id_lezione)
+        Prenotazione p = (Prenotazione)getFirst(prenotazioni);
+        if (p->id_cliente == id_cliente &&
+            p->id_lezione == id_lezione)
         {
             printf("Errore: Il cliente %d è già prenotato per la lezione %d.\n", id_cliente, id_lezione);
             return NULL;
         }
-        temp = temp->next;
+        temp = tailList(temp);
     }
 
     Prenotazione prenotazione = malloc(sizeof(struct Prenotazione)); // Alloca memoria per una nuova prenotazione
@@ -199,25 +170,10 @@ Prenotazione crea_prenotazione(
     prenotazione->id_cliente = id_cliente;
     prenotazione->id_lezione = id_lezione;
     strcpy(prenotazione->orario, orario);
-    incrementaPostiOccupati(head_lista, id_lezione);
+    incrementa_posti_occupati(lezione_attuale);
 
     return prenotazione; // Restituisce la nuova testa della lista
 }
 
 // Funzione per aggiungere una prenotazione alla lista di prenotazioni
 // Restituisce la nuova lista di prenotazioni
-PrenotazioniList aggiungi_prenotazione(PrenotazioniList prenotazioni, Prenotazione prenotazione)
-{
-
-    struct PrenotazioneNode *newPrenotazione = malloc(sizeof(struct PrenotazioneNode));
-    if (newPrenotazione == NULL)
-    {
-        return prenotazioni;
-    }
-    newPrenotazione->prenotazione = *prenotazione;
-    newPrenotazione->next = prenotazioni;
-    prenotazioni = newPrenotazione;
-    printf("Prenotazione ID %d creata con successo per cliente %d alla lezione %d.\n",
-           prenotazioni->prenotazione.id_prenotazione, prenotazioni->prenotazione.id_cliente, prenotazioni->prenotazione.id_lezione);
-    return prenotazioni;
-}

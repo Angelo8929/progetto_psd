@@ -3,6 +3,7 @@
 #include "clienti.h"
 #include "lezioni.h"
 #include "prenotazioni.h"
+#include "list.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -23,41 +24,13 @@ struct Lezione
 };
 
 // Nodo per la lista concatenata di lezioni
-struct LezioneNode
-{
-    struct Lezione lezione;   // Dati della lezione
-    struct LezioneNode *next; // Puntatore al nodo successivo
-};
 
 // Crea e restituisce una lista di lezioni vuota.
-LezioniList new_lezioni_list()
-{
-    return NULL;
-}
-
-// Verifica se la lista di lezioni è vuota.
-int empty_lezioni_list(LezioniList lezioni)
-{
-    return lezioni == NULL;
-}
 
 // Aggiunge una lezione in testa alla lista.
-LezioniList aggiungi_lezione(Lezione lezione, LezioniList lezioni)
-{
-
-    struct LezioneNode *newLezione = malloc(sizeof(struct LezioneNode)); // Alloca memoria per un nuovo nodo
-    if (newLezione == NULL)
-    {
-        return lezioni;
-    }
-    newLezione->lezione = *lezione;
-    newLezione->next = lezioni;
-    lezioni = newLezione;
-    return lezioni;
-}
 
 // Funzione per la visualizzazione della disponibilità delle lezioni
-void visualizza_disponibilita_lezione(LezioniList lezioni)
+void visualizza_lezioni(LezioniList lezioni)
 {
 
     if (lezioni == NULL)
@@ -68,31 +41,33 @@ void visualizza_disponibilita_lezione(LezioniList lezioni)
 
     printf("Disponibilita' Lezioni: \n");
 
-    struct LezioneNode *curr = lezioni; // Inizializza il puntatore corrente alla testa della lista
+    list curr = lezioni; // Inizializza il puntatore corrente alla testa della lista
 
     while (curr != NULL) // Itera attraverso la lista di lezioni
     {
 
-        struct Lezione lezioneattuale = curr->lezione;    // Ottiene la lezione corrente
-        int postiOccupati = lezioneattuale.postiOccupati; // Ottiene il numero di posti occupati per quella lezione
-        int capacita = lezioneattuale.capacita_massima;   // Ottiene la capacità massima della lezione
-        int postiDisponibili = capacita - postiOccupati;  // Calcola i posti disponibili
+        struct Lezione lezioneattuale = *(Lezione)getFirst(lezioni); // Ottiene la lezione corrente
+        int postiOccupati = lezioneattuale.postiOccupati;            // Ottiene il numero di posti occupati per quella lezione
+        int capacita = lezioneattuale.capacita_massima;              // Ottiene la capacità massima della lezione
+        int postiDisponibili = capacita - postiOccupati;             // Calcola i posti disponibili
 
         // Stampa le informazioni della lezione corrente
-        printf("\n");
-        printf("Nome Lezione: %s\n", lezioneattuale.nome);
-        printf("Nome Istruttore: %s\n", lezioneattuale.istruttore);
-        printf("Posti Attualmente Occupati: %d\n", postiOccupati);
-        printf("Capacità Totale Lezione: %d\n", capacita);
-        printf("Posti Disponibili: %d\n", postiDisponibili);
-        printf("\n");
+        printf("\n--- Dettagli Lezione ---\n");
+        printf("-----------------------------------------------\n");
+        printf(" ID Lezione                    | %d\n", lezioneattuale.id_lezione);
+        printf(" Nome Lezione                  | %s\n", lezioneattuale.nome);
+        printf(" Nome Istruttore               | %s\n", lezioneattuale.istruttore);
+        printf(" Posti Attualmente Occupati    | %d\n", postiOccupati);
+        printf(" Capacita' Totale Lezione      | %d\n", capacita);
+        printf(" Posti Disponibili             | %d\n", postiDisponibili);
+        printf("-----------------------------------------------\n\n");
 
-        curr = curr->next;
+        curr = tailList(curr);
     }
 }
 
 // Crea una nuova lezione e restituisce un puntatore ad essa
-Lezione new_lezione(int id, int capacita_massima, char *nome, char *istruttore, char *orario)
+Lezione crea_lezione(int id, int capacita_massima, char *nome, char *istruttore, char *orario)
 {
     Lezione lezione = malloc(sizeof(struct Lezione)); // Alloca memoria per una nuova lezione
     if (lezione == NULL)
@@ -114,17 +89,9 @@ Lezione new_lezione(int id, int capacita_massima, char *nome, char *istruttore, 
 }
 
 // Incrementa il numero di posti occupati per una lezione specifica
-void incrementa_posti_pccupati(LezioniList lezioni, int id_lezione)
+void incrementa_posti_occupati(Lezione lezione)
 {
-    while (lezioni != NULL) // Itera attraverso la lista di lezioni
-    {
-        if (lezioni->lezione.id_lezione == id_lezione) // Se trova la lezione con l'ID specificato
-        {
-            lezioni->lezione.postiOccupati++; // Incrementa i posti occupati
-            break;
-        }
-        lezioni = lezioni->next; // Se no, passa alla lezione successiva
-    }
+    lezione->postiOccupati++;
 }
 
 // Libera la memoria occupata dalla lista di lezioni
@@ -134,7 +101,7 @@ void libera_lezioni(LezioniList lezioni)
     while (lezioni != NULL)
     {
         LezioniList tmp = lezioni;
-        lezioni = lezioni->next;
+        lezioni = tailList(lezioni);
         free(tmp);
     }
 }
@@ -146,25 +113,42 @@ int get_capacita(Lezione lezione)
 }
 
 // Cerca una lezione specifica nella lista di lezioni
-Lezione cerca_lezione(LezioniList lezioni, int id_lezione)
-{
-    LezioniList temp = lezioni; // Inizializza un puntatore temporaneo alla testa della lista
-    while (temp != NULL)
-    {
-        if (temp->lezione.id_lezione == id_lezione)
-        {
-            return &(temp->lezione); // Restituisce il puntatore alla lezione trovata
-        }
-        else
-        {
-            temp = temp->next; // Passa alla lezione successiva se non trovata
-        }
-    }
-    return NULL;
-}
+// Lezione cerca_lezione(list lezioni, int id_lezione)
+// {
+//     list temp = lezioni; // Inizializza un puntatore temporaneo alla testa della lista
+//     while (temp != NULL)
+//     {
+//         if (temp->lezione.id_lezione == id_lezione)
+//         {
+//             return &(temp->lezione); // Restituisce il puntatore alla lezione trovata
+//         }
+//         else
+//         {
+//             temp = temp->next; // Passa alla lezione successiva se non trovata
+//         }
+//     }
+//     return NULL;
+// }
 
 // Restituisce il numero di posti occupati per una lezione
 int get_posti_occupati(Lezione lezione)
 {
     return lezione->postiOccupati;
+}
+
+int get_id_lezione(Lezione lezione)
+{
+    return lezione->id_lezione;
+}
+
+Lezione get_lezione_from_node(LezioniList nodo)
+{
+    if (nodo == NULL)
+        return NULL;
+    return (getFirst(nodo));
+}
+
+LezioniList go_next(LezioniList nodo)
+{
+    return tailList(nodo);
 }

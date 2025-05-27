@@ -3,7 +3,9 @@
 #include "../lezioni.h"
 #include "../prenotazioni.h"
 #include "../utils.h"
+#include "../list.h"
 #include <string.h>
+#include <stdlib.h>
 #define M 30
 
 int confronta_file(const char *file1, const char *file2)
@@ -39,32 +41,47 @@ int run_test_case(char *tc_id)
     sprintf(output_fname, "%s_output.txt", tc_id);
     sprintf(oracle_fname, "%s_oracle.txt", tc_id);
 
-    hashtable clienti = new_clienti_hashtable(100);          // Crea una hashtable per i clienti vuota di 100 elementi
-    LezioniList lezioni = new_lezioni_list();                // Crea una lista di lezioni vuota
-    PrenotazioniList prenotazioni = new_prenotazioni_list(); // Crea una lista di prenotazioni vuota
+    hashtable clienti = new_hashtable(100);    // Crea una hashtable per i clienti vuota di 100 elementi
+    LezioniList lezioni = newList();           // Crea una lista di lezioni vuota
+    PrenotazioniList prenotazioni = newList(); // Crea una lista di prenotazioni vuota
 
     lezioni = carica_lezioni_file("../lezioni.txt", lezioni);
     carica_clienti_file("../clienti.txt", clienti);
     prenotazioni = carica_prenotazioni_file(input_fname, prenotazioni, clienti, lezioni);
-
     visualizza_prenotazioni_file(prenotazioni, output_fname);
+    visualizza_disponibilita_lezioni_file(lezioni, output_fname);
 
-    if (confronta_file(oracle_fname, output_fname))
-    {
-        printf("Test %s SUPERATO\n", tc_id);
-        return 1;
-    }
-    else
-    {
-        printf("Test %s FALLITO\n", tc_id);
-        return 0;
-    }
+    int result = confronta_file(oracle_fname, output_fname);
+    return result;
 }
 
-int main()
+int main(int argc, char **argv)
 {
-    run_test_case("TC1");
-    run_test_case("TC2");
-    run_test_case("TC3");
-    run_test_case("TC4");
+    FILE *test_suite, *result;
+    char tc_id[M];
+    int pass;
+    if (argc < 3)
+    {
+        printf("Nomi dei file mancanti");
+        exit(1);
+    }
+    test_suite = fopen(argv[1], "r");
+    result = fopen(argv[2], "w");
+
+    if (test_suite == NULL || result == NULL)
+    {
+        printf("Errore in apertura dei file");
+        exit(1);
+    }
+    while (fscanf(test_suite, "%s", tc_id) == 1)
+    {
+        pass = run_test_case(tc_id);
+        fprintf(result, "%s ", tc_id);
+        if (pass == 1)
+            fprintf(result, "PASS \n");
+        else
+            fprintf(result, "FAIL \n");
+    }
+    fclose(test_suite);
+    fclose(result);
 }
