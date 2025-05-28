@@ -2,21 +2,41 @@
 #include "lezioni.h"
 #include <stdlib.h>
 
-struct node
+struct node // definizione del singolo nodo della lista
 {
     item value;
     struct node *next;
 };
-list newList(void)
+
+/*
+    funzione new_list
+    Precondizione: sempre verificata, la funzione non ha parametri
+    Postcondizione: restituisce una lista vuota
+*/
+
+list newList()
 {
     return NULL; // Restituisce NULL, indicando una lista vuota
 }
 
-// Funzione per verificare se la lista è vuota
+/*
+    funzione empty_list(list l)
+    Precondizione: sempre verificata
+    Postcondizione: restituisce 1 se la lista è vuota, 0 altrimenti
+
+*/
+
 int emptyList(list l)
 {
     return l == NULL; // Restituisce 1 se la lista è vuota (NULL), altrimenti restituisce 0
 }
+
+/*
+    funzione cons_list(item val, list l)
+    Precondizione: item != NULL
+    Postcondizione: restituisce l' = (val, a1, a2, ..., an)
+*/
+
 list consList(item val, list l)
 {
     struct node *nuovo;                  // Dichiarazione di un puntatore a un nuovo nodo
@@ -32,6 +52,13 @@ list consList(item val, list l)
 
     return l; // Restituisce il puntatore alla lista aggiornata
 }
+
+/*
+    funzione tail_list(list l)
+    Precondizione: sempre verificata
+    Postcondizione: se l = (a1, a2, ..., an), allora restituisce l' = (a2, a3, ..., an)
+*/
+
 list tailList(list l)
 {
     list temp; // Dichiarazione di un puntatore temporaneo a lista
@@ -43,6 +70,14 @@ list tailList(list l)
 
     return temp; // Restituisce la coda della lista (una nuova lista)
 }
+
+/*
+    funzione reverse_list(list l)
+    Precondizioni: l != NULL
+    Postcondizione: restituisce la lista con gli elementi in ordine inverso
+
+*/
+
 list reverseList(list l)
 {
     list rev;        // Dichiarazione di un puntatore a una nuova lista invertita
@@ -58,6 +93,13 @@ list reverseList(list l)
     return rev; // Restituisce la lista invertita
 }
 
+/*
+    funzione get_first(list l)
+    Precondizione: l != NULL
+    Postcondizione: restituisce il primo elemento della lista
+
+
+*/
 item getFirst(list l)
 {
     item e; // Dichiarazione di una variabile temporanea per memorizzare il primo elemento della lista
@@ -68,4 +110,22 @@ item getFirst(list l)
         e = NULLITEM; // Se la lista è vuota, assegna un valore speciale NULLITEM alla variabile temporanea
 
     return e; // Restituisce il primo elemento della lista
+}
+
+/*
+    funzione libera_lista(list l)
+    Precondizione: l != NULL
+    Postcondizione: dealloca la memoria occupata dalla lista
+
+*/
+
+void libera_lista(list l)
+{
+    while (l != NULL) // finchè la lista non si svuota
+    {
+        list tmp = l;     // salva il puntatore al nodo corrente
+        free(tmp->value); // libera la memoria dell'elemento puntato da value
+        l = tailList(l);  // passa al nodo successivo
+        free(tmp);        // libera la memoria del nodo corrente
+    }
 }

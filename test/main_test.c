@@ -75,7 +75,9 @@ int main(int argc, char **argv)
     }
     while (fscanf(test_suite, "%s", tc_id) == 1)
     {
+        printf("------------Messaggi %s------------------------\n", tc_id);
         pass = run_test_case(tc_id);
+        printf("------------------------------------\n");
         fprintf(result, "%s ", tc_id);
         if (pass == 1)
             fprintf(result, "PASS \n");
@@ -84,4 +86,6 @@ int main(int argc, char **argv)
     }
     fclose(test_suite);
     fclose(result);
+
+    printf("Test suite eseguita. Visualizza il file result.txt per sapere l'esito :)\n");
 }

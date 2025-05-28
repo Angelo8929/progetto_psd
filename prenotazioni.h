@@ -1,37 +1,75 @@
+
+
 #include "clienti.h"
 #include "lezioni.h"
-#include "list.h" // Tipo astratto per la lista di prenotazioni
-typedef struct Prenotazione *Prenotazione;
-typedef list PrenotazioniList; // Tipo astratto per una prenotazione
+#include "list.h"
+typedef struct Prenotazione *Prenotazione; // Tipo astratto per una prenotazione
+typedef list PrenotazioniList;             // Tipo astratto per la lista di prenotazioni
 
-// ===============================
-// Funzioni per la gestione delle prenotazioni
-// ===============================
+/*
+    Funzione: crea_prenotazione
+    Restituisce una prenotazione con id_prenotazione autoincrementante, e id_cliente e id_lezione indicati nei parametri
+    Parametri:
+        prenotazioni: lista prenotazioni
+        lezioni: lista lezioni
+        clienti: tabella hash clienti
+        size_tabella_hash: dimensione tabella hash
+        id_cliente: identificativo del cliente prenotante
+        id_lezione: identificativo della lezione prenotata
+        orario: orario in cui si tiene la lezione
 
-// Crea una nuova lista di prenotazioni
 
-// Verifica se la lista di prenotazioni è vuota
-
-// Crea una nuova prenotazione
+*/
 Prenotazione crea_prenotazione(
     PrenotazioniList prenotazioni,
     LezioniList lezioni,
     hashtable clienti,
-    int size_tabella,
+    int size_tabella_hash,
     int id_cliente,
     int id_lezione,
     char orario[]);
 
-// Aggiunge una prenotazione alla lista
-
-// Conta il numero di prenotazioni attive per una lezione specifica dato il suo ID e ne restituisce il conteggio
-
-// Funzione per visualizzare le prenotazioni di un cliente specifico
-
+/*
+    Funzione: visualizza_prenotazioni
+    Stampa a video la lista delle prenotazioni
+    Parametri:
+        prenotazioni: la lista delle prenotazioni
+*/
 // Funzione per visualizzare tutte le prenotazioni nella lista di prenotazioni
 void visualizza_prenotazioni(PrenotazioniList prenotazioni);
 
-void visualizza_prenotazioni_file(PrenotazioniList prenotazioni, char *nome_file);
+/*
+    Funzione: get_id_prenotazione
+    Restituisce l'id della prenotazione
+    Parametri:
+        p: istanza della struct Prenotazione
 
-// Funzione per liberare la memoria occupata dalla lista di prenotazioni
-void libera_prenotazioni(PrenotazioniList prenotazioni);
+*/
+int get_id_prenotazione(Prenotazione p);
+/*
+    Funzione: get_id_cliente_prenotazione
+    Restituisce l'id del cliente prenotante, di tipo intero
+    Parametri:
+        p: istanza della struct Prenotazione
+
+*/
+
+int get_id_cliente_prenotazione(Prenotazione p);
+
+/*
+    Funzione: get_id_lezione_prenotazione
+    Restituisce l'id della lezione prenotata, di tipo intero
+    Parametri:
+        p: istanza della struct Prenotazione
+
+*/
+int get_id_lezione_prenotazione(Prenotazione p);
+
+/*
+    Funzione: get_orario_prenotazione
+    Restituisce l'orario della lezione prenotata, di tipo stringa
+    Parametri:
+        p: istanza della struct Prenotazione
+
+*/
+char *get_orario_prenotazione(Prenotazione p);

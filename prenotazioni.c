@@ -21,15 +21,14 @@ struct Prenotazione
     char orario[6];
 };
 
-// Nodo per la lista concatenata di prenotazioni
+/*
+    ---- funzione visualizza_prenotazioni(PrenotazioniList prenotazioni)
+        Precondizione: sempre verificata
+        Postcondizioni: stampa a video tutte le prenotazioni, scorrendo la lista collegata
 
-// Crea e restituisce una lista di prenotazioni vuota
 
-// Conta il numero di prenotazioni attive per una lezione specifica dato il suo ID e ne restituisce il conteggio
+*/
 
-// Funzione per visualizzare le prenotazioni di un cliente specifico
-
-// Funzione per visualizzare tutte le prenotazioni nella lista di prenotazioni
 void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
 {
     PrenotazioniList current = head_prenotazioni;
@@ -40,80 +39,48 @@ void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
     }
 
     printf("\n--- Tutte le Prenotazioni nel Sistema ---\n");
-    printf("ID Pren. | ID Cliente | ID Lezione \n");
+    printf("ID Pren. | ID Cliente | ID Lezione | Orario\n");
     printf("----------------------------------------------------------------------\n");
 
     while (current != NULL)
     {
         Prenotazione p = (Prenotazione)getFirst(current);
-        printf("%-8d | %-10d | %-10d |\n",
+        printf("%-8d | %-10d | %-10d | %-8s\n",
                p->id_prenotazione,
                p->id_cliente,
-               p->id_lezione);
+               p->id_lezione,
+               p->orario);
         current = tailList(current);
     }
     printf("----------------------------------------------------------------------\n\n");
 }
 
-void visualizza_prenotazioni_file(PrenotazioniList prenotazioni, char *nome_file)
-{
-    FILE *fp = fopen(nome_file, "w");
-    if (fp == NULL)
-    {
-        perror("Errore in apertura del file\n");
-        exit(1);
-    }
-    PrenotazioniList current = prenotazioni;
-    if (current == NULL)
-    {
-        fprintf(fp, "Nessuna prenotazione nel sistema\n");
-    }
-    else
-    {
-        fprintf(fp, "Prenotazioni: \n");
-        while (current != NULL)
-        {
-            Prenotazione p = (Prenotazione)getFirst(current);
-            fprintf(fp, "\n");
-            fprintf(fp, "ID prenotazione: %d\n", p->id_prenotazione);
-            fprintf(fp, "ID cliente: %d\n", p->id_cliente);
-            fprintf(fp, "ID lezione: %d", p->id_lezione);
-            fprintf(fp, "\n");
-            current = tailList(current);
-        }
-    }
-    fclose(fp);
-}
+/*
+    --- funzione crea_prenotazione(PrenotazioniList prenotazioni,
+                                   LezioniList lezioni,
+                                   hashtable clienti,
+                                   int size_tabella_hash,
+                                   int id_cliente,
+                                   int id_lezione,
+                                   char[] orario)
 
-// Funzione per liberare la memoria occupata dalla lista di prenotazioni
-void libera_prenotazioni(PrenotazioniList prenotazioni)
-{
-    while (prenotazioni != NULL)
-    {
-        Prenotazione p = (Prenotazione)getFirst(prenotazioni);
-        free(p);
-        prenotazioni = tailList(prenotazioni);
-    }
-}
+                Precondizioni: lezioni != NULL, clienti != NULL, size_tabella_hash > 0, orario != NULL
+                Postcondizioni: restituisce prenotazione = {id_prenotazione, id_cliente, id_lezione}
 
-// Funzione per creare una nuova prenotazione
-// Restituisce un puntatore alla nuova prenotazione
+*/
 Prenotazione crea_prenotazione(
     PrenotazioniList prenotazioni,
     LezioniList head_lista,
     hashtable h,
-    int size_tabella,
+    int size_tabella_hash,
     int id_cliente,
     int id_lezione,
-    char orario[]
-    // int abbonamento_cliente_valido, // Semplificazione
-    // int capacita_lezione_attuale    // Semplificazione
-)
+    char orario[])
 {
-    static int count_id_prenotazione = 0;
+    static int count_id_prenotazione = 0; // variabile statica per mantenere il conteggio delle prenotazioni
 
     // Verifica se il cliente e la lezione esistono
-    if (cerca_cliente(h, id_cliente, size_tabella) == NULL)
+    if (cerca_cliente(h, id_cliente, size_tabella_hash) == NULL)
     {
         fprintf(stderr, "Errore: Il cliente con ID %d non esiste.\n", id_cliente);
         return NULL;
@@ -127,7 +94,7 @@ Prenotazione crea_prenotazione(
     }
 
     // Verifica se il cliente ha un abbonamento valido
-    if (!get_abbonamento(h, id_cliente, size_tabella))
+    if (!get_abbonamento(h, id_cliente, size_tabella_hash))
     {
         fprintf(stderr, "Errore: Il cliente %d non ha un abbonamento valido.\n", id_cliente);
         return NULL;
@@ -163,7 +130,7 @@ Prenotazione crea_prenotazione(
     if (prenotazione == NULL)
     {
         perror("Errore malloc per PrenotazioneNode");
-        exit(1); // o exit
+        exit(1); // uscita forzata
     }
 
     prenotazione->id_prenotazione = count_id_prenotazione++;
@@ -175,5 +142,49 @@ Prenotazione crea_prenotazione(
     return prenotazione; // Restituisce la nuova testa della lista
 }
 
-// Funzione per aggiungere una prenotazione alla lista di prenotazioni
-// Restituisce la nuova lista di prenotazioni
+/*
+    ---- funzione get_id_prenotazione(Prenotazione p)
+        Precondizioni: p != NULL
+        Postcondizioni: restituisce p->id_prenotazione
+
+*/
+int get_id_prenotazione(Prenotazione p)
+{
+    return p->id_prenotazione;
+}
+
+/*
+    ---- funzione get_id_cliente_prenotazione(Prenotazione p)
+        Precondizioni: p != NULL
+        Postcondizioni: restituisce p->id_cliente
+
+*/
+
+int get_id_cliente_prenotazione(Prenotazione p)
+{
+    return p->id_cliente;
+}
+
+/*
+    ---- funzione get_id_lezione_prenotazione(Prenotazione p)
+        Precondizioni: p != NULL
+        Postcondizioni: restituisce p->id_lezione
+
+*/
+
+int get_id_lezione_prenotazione(Prenotazione p)
+{
+    return p->id_lezione;
+}
+
+/*
+    ---- funzione get_orario_prenotazione(Prenotazione p)
+        Precondizioni: p != NULL
+        Postcondizioni: restituisce p->orario
+
+*/
+
+char *get_orario_prenotazione(Prenotazione p)
+{
+    return p->orario;
+}

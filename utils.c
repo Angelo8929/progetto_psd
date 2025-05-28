@@ -86,7 +86,7 @@ PrenotazioniList carica_prenotazioni_file(char *nome_file, PrenotazioniList pren
         }
         else
         {
-
+            printf("Prenotazione effettuata con successo per cliente %d alla lezione %d\n", id_cliente, id_lezione);
             prenotazioni = consList(prenotazione, prenotazioni); // Aggiunge la prenotazione alla lista di prenotazioni altrimenti
         }
     }
@@ -101,12 +101,12 @@ Lezione cerca_lezione(LezioniList lezioni, int id_lezione)
     LezioniList temp = lezioni;
     while (temp != NULL)
     {
-        Lezione l = get_lezione_from_node(temp);
+        Lezione l = getFirst(temp);
         if (get_id_lezione(l) == id_lezione)
         {
             return l;
         }
-        temp = go_next(temp);
+        temp = tailList(temp);
     }
     return NULL;
 }
@@ -132,15 +132,48 @@ void visualizza_disponibilita_lezioni_file(LezioniList lezioni, char *nome_file)
     LezioniList curr = lezioni;
     while (curr != NULL)
     {
-        Lezione l = get_lezione_from_node(curr);
+        Lezione l = getFirst(curr);
         int posti_occupati = get_posti_occupati(l);
         int capacita = get_capacita(l);
         int posti_disponibili = capacita - posti_occupati;
+        char *orario = get_orario(l);
 
-        fprintf(fp, "ID Lezione: %d | Occupati: %d | Disponibili: %d | Capacita: %d\n",
-                get_id_lezione(l), posti_occupati, posti_disponibili, capacita);
+        fprintf(fp, "ID Lezione: %d | Occupati: %d | Disponibili: %d | Capacita: %d | Orario: %s\n",
+                get_id_lezione(l), posti_occupati, posti_disponibili, capacita, orario);
 
-        curr = go_next(curr);
+        curr = tailList(curr);
+    }
+    fclose(fp);
+}
+
+void visualizza_prenotazioni_file(PrenotazioniList prenotazioni, char *nome_file)
+{
+    FILE *fp = fopen(nome_file, "w");
+    if (fp == NULL)
+    {
+        perror("Errore in apertura del file\n");
+        exit(1);
+    }
+    PrenotazioniList current = prenotazioni;
+    if (current == NULL)
+    {
+        fprintf(fp, "Nessuna prenotazione nel sistema\n");
+    }
+    else
+    {
+        fprintf(fp, "Prenotazioni: \n");
+        while (current != NULL)
+        {
+            Prenotazione p = (Prenotazione)getFirst(current);
+            fprintf(fp, "\n");
+            fprintf(fp, "ID prenotazione: %d\n", get_id_prenotazione(p));
+            fprintf(fp, "ID cliente: %d\n", get_id_cliente_prenotazione(p));
+            fprintf(fp, "ID lezione: %d\n", get_id_lezione_prenotazione(p));
+            fprintf(fp, "Orario: %s", get_orario_prenotazione(p));
+            fprintf(fp, "\n");
+            current = tailList(current);
+        }
+        fprintf(fp, "\n");
     }
     fclose(fp);
 }

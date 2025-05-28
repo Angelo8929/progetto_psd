@@ -4,7 +4,6 @@
 #include "clienti.h"
 #include "lezioni.h"
 #include "prenotazioni.h"
-#include "abbonamenti.h"
 #include "utils.h"
 #include "list.h"
 
@@ -20,13 +19,15 @@ int main()
     // Menù Principale per l'utente
     do
     {
+        printf("========MENU======================\n");
         printf("\n1. Carica lezioni da file");
         printf("\n2. Carica clienti da file");
-        printf("\n3. Carica prenotazioni da file");
+        printf("\n3. Carica prenotazioni da file (racchiude tutti i test case)");
         printf("\n4. Visualizza prenotazioni effettuate");
         printf("\n5. Visualizza lezioni");
         printf("\n6. Visualizza clienti");
         printf("\n0. Esci dal programma ");
+        printf("\n======================================");
         printf("\n Scelta: ");
         scanf("%d", &scelta);
 
@@ -37,6 +38,10 @@ int main()
             {
 
                 lezioni = carica_lezioni_file("lezioni.txt", lezioni);
+
+                printf("----------------------------------\n");
+                printf("Lezioni caricate con successo\n");
+                printf("----------------------------------\n");
             }
             else
             {
@@ -50,15 +55,31 @@ int main()
 
                 carica_clienti_file("clienti.txt", clienti);
                 clienti_caricati = 1;
+                printf("----------------------------------\n");
+                printf("Clienti caricati con successo\n");
+                printf("----------------------------------\n");
             }
             else
             {
+                printf("----------------------------------\n");
                 printf("Clienti gia' caricati\n");
+                printf("----------------------------------\n");
             }
             break;
 
         case 3:
-            prenotazioni = carica_prenotazioni_file("tc1.txt", prenotazioni, clienti, lezioni);
+            if (prenotazioni == NULL)
+            {
+
+                prenotazioni = carica_prenotazioni_file("prenotazioni.txt", prenotazioni, clienti, lezioni);
+                printf("----------------------------------\n");
+            }
+            else
+            {
+                printf("----------------------------------\n");
+                printf("Prenotazioni gia' caricate\n");
+                printf("----------------------------------\n");
+            }
             break;
 
         case 4:
@@ -75,8 +96,8 @@ int main()
 
         case 0:
             destroy_hashtable(clienti);
-            libera_lezioni(lezioni);
-            libera_prenotazioni(prenotazioni);
+            libera_lista(lezioni);
+            libera_lista(prenotazioni);
 
             printf("Uscita...");
             break;
