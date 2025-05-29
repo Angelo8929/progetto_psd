@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 // ===============================
-// Definizione delle strutture dati
+// Gestione clienti
 // ===============================
 
 // Definizione della struttura Cliente
@@ -34,6 +34,11 @@ struct hash
 hashtable new_hashtable(int size)
 {
     hashtable h = (struct hash *)malloc(sizeof(struct hash));
+    if (h == NULL)
+    {
+        fprintf(stderr, "Errore di allocazione per la tabella hash");
+        exit(1);
+    }
     h->size = size;
     h->table = (struct Cliente **)calloc(size, sizeof(struct Cliente *)); // Inizializza con NULL
     return h;
@@ -45,7 +50,7 @@ hashtable new_hashtable(int size)
     postcondizione: restituisce 1 se il cliente è stato inserito correttamente nala tabella hash, altrimenti 0 se è gia presente
 */
 
-int insert_hash(hashtable h, Cliente cliente)
+int insert_hash(hashtable clienti, Cliente cliente)
 {
     if (cliente == NULL)
     {
@@ -53,8 +58,8 @@ int insert_hash(hashtable h, Cliente cliente)
         return 0;
     }
 
-    int idx = hash_fun(cliente->id, h->size); // Calcola indice tramite funzione hash
-    Cliente head = h->table[idx];             // Ottiene la lista corrente nella posizione calcolata
+    int idx = hash_fun(cliente->id, clienti->size); // Calcola indice tramite funzione hash
+    Cliente head = clienti->table[idx];             // Ottiene la lista corrente nella posizione calcolata
     Cliente curr = head;
 
     // Controlla se il cliente esiste già
@@ -67,7 +72,7 @@ int insert_hash(hashtable h, Cliente cliente)
 
     // Inserimento in testa alla lista (gestione collisioni con chaining)
     cliente->next = head;
-    h->table[idx] = cliente;
+    clienti->table[idx] = cliente;
     return 1;
 }
 
@@ -77,9 +82,9 @@ int insert_hash(hashtable h, Cliente cliente)
         postcondizione: restituisce il valore hash (indice della tabella) della chiave id_cliente, utilizzando l'operazione di modulo
 */
 
-int hash_fun(int k, int m)
+int hash_fun(int id_cliente, int size_tabella_hash)
 {
-    return k % m;
+    return id_cliente % size_tabella_hash; // operatore di modulo
 }
 
 /*
@@ -92,6 +97,11 @@ int hash_fun(int k, int m)
 Cliente crea_cliente(int id, char nome[], char cognome[], int abbonamento)
 {
     Cliente nuovo = malloc(sizeof(struct Cliente)); // inserire controllo NULL
+    if (nuovo == NULL)
+    {
+        fprintf(stderr, "Errore di allocazione per nuovo cliente\n");
+        exit(1);
+    }
     nuovo->id = id;
     strcpy(nuovo->nome, nome);
     strcpy(nuovo->cognome, cognome);
@@ -129,7 +139,7 @@ Cliente cerca_cliente(hashtable clienti, int id_cliente, int size_tabella)
 
     while (curr != NULL)
     {
-        if (curr->id == id_cliente)
+        if (curr->id == id_cliente) // se i due identificativi combaciano restituisce il cliente attuale
             return curr;
         curr = curr->next;
     }
@@ -154,12 +164,12 @@ void visualizza_clienti(hashtable clienti)
     printf("\n--- Elenco Clienti ---\n");
     for (int i = 0; i < clienti->size; i++) // itera fino alla size della tabella
     {
-        struct Cliente *curr = clienti->table[i];
-        while (curr != NULL)
+        struct Cliente *curr = clienti->table[i]; // primo elemnto nella lista collegata
+        while (curr != NULL)                      // finche non si arriva alla fine della lista collegata
         {
             printf("ID: %d | Nome: %s | Cognome: %s | Abbonamento: %svalido\n",
                    curr->id, curr->nome, curr->cognome, curr->abbonamento ? "" : "non "); // operatore ternario per stampare valido/non valido a seconda del valore di abbonamento
-            curr = curr->next;
+            curr = curr->next;                                                            // va avanti nella lista collegata
         }
     }
     printf("----------------------\n");
@@ -186,7 +196,6 @@ int get_abbonamento(hashtable clienti, int id_cliente, int size_tabella)
 
 */
 
-// Restituisce la dimensione della hashtable
 int get_size(hashtable clienti)
 {
     return clienti->size;
@@ -198,19 +207,19 @@ int get_size(hashtable clienti)
         postcondizione: libera la memoria allocata per tutta la tabella hash, richiamando delete_list per la deallocazione delle liste collegate
 
 */
-void destroy_hashtable(hashtable h)
+void destroy_hashtable(hashtable clienti)
 {
     int i;
     // Ciclo attraverso ogni indice della tabella hash.
-    for (i = 0; i < h->size; i++)
+    for (i = 0; i < clienti->size; i++)
     {
         // Elimina la lista collegata in ogni indice della tabella.
-        delete_list(h->table[i]);
+        delete_list(clienti->table[i]);
     }
     // Libera la memoria allocata per l'array di puntatori della tabella.
-    free(h->table);
+    free(clienti->table);
     // Libera la memoria allocata per la struttura della tabella hash.
-    free(h);
+    free(clienti);
     return;
 }
 

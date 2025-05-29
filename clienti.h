@@ -23,7 +23,7 @@ hashtable new_hashtable(int size);
         cliente: istanza della struct Cliente
 */
 
-int insert_hash(hashtable h, Cliente cliente);
+int insert_hash(hashtable clienti, Cliente cliente);
 
 /*
     Funzione: crea_cliente
@@ -37,8 +37,6 @@ int insert_hash(hashtable h, Cliente cliente);
 
 Cliente crea_cliente(int id, char nome[], char cognome[], int abbonamento);
 
-// Libera tutta la memoria associata alla hashtable e ai clienti contenuti.
-
 /*
     Funzione: hash_fun
     Restituisce il valore hash di id_cliente, di tipo intero
@@ -48,8 +46,7 @@ Cliente crea_cliente(int id, char nome[], char cognome[], int abbonamento);
 
 */
 
-// Funzione hash che calcola la posizione in tabella a partire da una chiave.
-int hash_fun(int k, int m);
+int hash_fun(int id_cliente, int size_tabella);
 
 int get_id_cliente(Cliente cliente);
 
@@ -62,7 +59,7 @@ int get_id_cliente(Cliente cliente);
         size_tabella: la dimensione della tabella hash per poter effettuare la ricerca
 
 */
-// Cerca un cliente nella hashtable dato il suo ID.
+
 Cliente cerca_cliente(hashtable clienti, int id_cliente, int size_tabella);
 
 /*
@@ -104,7 +101,7 @@ int get_size(hashtable clienti);
 
 */
 
-void destroy_hashtable(hashtable h);
+void destroy_hashtable(hashtable clienti);
 
 /*
     Funzione: delete_list
@@ -113,4 +110,4 @@ void destroy_hashtable(hashtable h);
         p: il puntatore alla lista collegata di cui si vuole deallocare la memoria
 */
 
-void delete_list(struct Cliente *p);
+void delete_list(Cliente cliente);

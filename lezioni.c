@@ -9,7 +9,7 @@
 #include <string.h>
 
 // ===============================
-// Definizione delle strutture dati
+// Gestione delle lezioni
 // ===============================
 
 // Struttura che rappresenta una singola lezione
@@ -22,12 +22,6 @@ struct Lezione
     int posti_occupati;       // Numero attuale di posti occupati
     char orario[6];           // Orario nel formato "HH:MM"
 };
-
-// Nodo per la lista concatenata di lezioni
-
-// Crea e restituisce una lista di lezioni vuota.
-
-// Aggiunge una lezione in testa alla lista.
 
 /*
     ---- funzione visualizza_lezioni (lezioni_list lezioni)
@@ -159,4 +153,9 @@ int get_posti_occupati(Lezione lezione)
 int get_id_lezione(Lezione lezione)
 {
     return lezione->id_lezione;
+}
+
+char *get_nome(Lezione lezione)
+{
+    return lezione->nome;
 }

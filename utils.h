@@ -70,3 +70,12 @@ void visualizza_disponibilita_lezioni_file(lezioni_list lezioni, char *nome_file
 */
 
 void visualizza_prenotazioni_file(prenotazioni_list prenotazioni, char *nome_file);
+
+/*
+    ---- funzione visualizza_lezione_piu_frequentata(prenotazioni_list prenotazioni, char* nome_file)
+    Stampa i dati della lezione più frequentata, ovvero quella con il valore del campo di posti_occupati più alto
+    Parametri:
+        lezioni: la lista collegata da esaminare
+
+*/
+void visualizza_lezione_piu_frequentata(lezioni_list lezioni);

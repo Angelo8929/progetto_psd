@@ -68,3 +68,11 @@ int get_id_lezione(Lezione lezione);
         lezione: istanza della struct Lezione
 */
 char *get_orario(Lezione lezione);
+/*
+    Funzione: get_nome
+    Restituisce il campo nome di un'istanza della struct Lezione, stringa
+    Parametri:
+        lezione: istanza della struct Lezione
+*/
+
+char *get_nome(Lezione lezione);

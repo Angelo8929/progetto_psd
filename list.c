@@ -39,6 +39,10 @@ int empty_list(list l)
 
 list cons_list(item val, list l)
 {
+    if (val == NULL)
+    {
+        return l;
+    }
     struct node *nuovo;                  // Dichiarazione di un puntatore a un nuovo nodo
     nuovo = malloc(sizeof(struct node)); // Allocazione della memoria per il nuovo nodo
 

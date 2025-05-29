@@ -42,7 +42,7 @@ void visualizza_prenotazioni(prenotazioni_list head_prenotazioni)
     printf("ID Pren. | ID Cliente | ID Lezione | Orario\n");
     printf("----------------------------------------------------------------------\n");
 
-    while (current != NULL)
+    while (current != NULL) // stampa di tutti i campi finchè la lista non si svuota
     {
         Prenotazione p = (Prenotazione)get_first(current);
         printf("%-8d | %-10d | %-10d | %-8s\n",
@@ -50,7 +50,7 @@ void visualizza_prenotazioni(prenotazioni_list head_prenotazioni)
                p->id_cliente,
                p->id_lezione,
                p->orario);
-        current = tail_list(current);
+        current = tail_list(current); // scorre la lista
     }
     printf("----------------------------------------------------------------------\n\n");
 }
@@ -79,12 +79,14 @@ Prenotazione crea_prenotazione(
 {
     static int count_id_prenotazione = 0; // variabile statica per mantenere il conteggio delle prenotazioni
 
-    // Verifica se il cliente e la lezione esistono
+    // Verifica se il cliente esiste nella tabella hash
     if (cerca_cliente(h, id_cliente, size_tabella_hash) == NULL)
     {
         fprintf(stderr, "Errore: Il cliente con ID %d non esiste.\n", id_cliente);
         return NULL;
     }
+
+    // verifica se la lezione esiste nella lista collegata
     Lezione lezione_attuale = cerca_lezione(head_lista, id_lezione);
     if (lezione_attuale == NULL)
     {
@@ -129,7 +131,7 @@ Prenotazione crea_prenotazione(
     Prenotazione prenotazione = malloc(sizeof(struct Prenotazione)); // Alloca memoria per una nuova prenotazione
     if (prenotazione == NULL)
     {
-        perror("Errore malloc per PrenotazioneNode");
+        perror("Errore di allocazione per una nuova prenotazione");
         exit(1); // uscita forzata
     }
 

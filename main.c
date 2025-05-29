@@ -25,7 +25,8 @@ int main()
         printf("\n3. Carica prenotazioni da file (racchiude tutti i test case)");
         printf("\n4. Visualizza prenotazioni effettuate");
         printf("\n5. Visualizza lezioni");
-        printf("\n6. Visualizza clienti");
+        printf("\n6. Visualizza lezione piu frequentata");
+        printf("\n7. Visualizza clienti");
         printf("\n0. Esci dal programma ");
         printf("\n======================================");
         printf("\n Scelta: ");
@@ -44,7 +45,7 @@ int main()
                 printf("----------------------------------\n");
                 printf("\n");
             }
-            else
+            else // gestione lista lezioni già caricata
             {
                 printf("Lezioni gia' caricate\n");
                 printf("\n");
@@ -52,7 +53,7 @@ int main()
             break;
 
         case 2:
-            if (!clienti_caricati)
+            if (!clienti_caricati) // gestione tabella hash clienti già caricata
             {
 
                 carica_clienti_file("clienti.txt", clienti);
@@ -72,7 +73,7 @@ int main()
             break;
 
         case 3:
-            if (prenotazioni == NULL)
+            if (prenotazioni == NULL) // gestione lista prenotazioni già caricata
             {
 
                 prenotazioni = carica_prenotazioni_file("prenotazioni.txt", prenotazioni, clienti, lezioni);
@@ -96,10 +97,14 @@ int main()
             break;
 
         case 6:
+            visualizza_lezione_piu_frequentata(lezioni);
+            break;
+        case 7:
             visualizza_clienti(clienti);
             break;
 
         case 0:
+            // prima di uscire dal programma, dealloca la memoria per tutte le strutture dati
             destroy_hashtable(clienti);
             libera_lista(lezioni);
             libera_lista(prenotazioni);
@@ -108,10 +113,11 @@ int main()
             break;
 
         default:
+
             printf("Scelta non valida\n");
             printf("\n");
         }
-    } while (scelta != 0);
+    } while (scelta != 0); // se non viene effettuata una scelta valida, viene riproposto il menu
 
     return 0;
 }

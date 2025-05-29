@@ -1,7 +1,6 @@
-// file list.h
+// gestione adt lista
 typedef struct node *list; // tipo opaco per la lista
 typedef void *item;        // tipo opaco per far adattare item a Prenotazione e Lezione
-// prototipi
 
 /*
     ---- funzione new_list()
