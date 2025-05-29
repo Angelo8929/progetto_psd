@@ -14,7 +14,7 @@ struct node // definizione del singolo nodo della lista
     Postcondizione: restituisce una lista vuota
 */
 
-list newList()
+list new_list()
 {
     return NULL; // Restituisce NULL, indicando una lista vuota
 }
@@ -26,7 +26,7 @@ list newList()
 
 */
 
-int emptyList(list l)
+int empty_list(list l)
 {
     return l == NULL; // Restituisce 1 se la lista è vuota (NULL), altrimenti restituisce 0
 }
@@ -37,7 +37,7 @@ int emptyList(list l)
     Postcondizione: restituisce l' = (val, a1, a2, ..., an)
 */
 
-list consList(item val, list l)
+list cons_list(item val, list l)
 {
     struct node *nuovo;                  // Dichiarazione di un puntatore a un nuovo nodo
     nuovo = malloc(sizeof(struct node)); // Allocazione della memoria per il nuovo nodo
@@ -59,7 +59,7 @@ list consList(item val, list l)
     Postcondizione: se l = (a1, a2, ..., an), allora restituisce l' = (a2, a3, ..., an)
 */
 
-list tailList(list l)
+list tail_list(list l)
 {
     list temp; // Dichiarazione di un puntatore temporaneo a lista
 
@@ -78,17 +78,17 @@ list tailList(list l)
 
 */
 
-list reverseList(list l)
+list reverse_list(list l)
 {
-    list rev;        // Dichiarazione di un puntatore a una nuova lista invertita
-    item val;        // Dichiarazione di una variabile temporanea per memorizzare il valore degli elementi
-    rev = newList(); // Inizializzazione della nuova lista vuota
+    list rev;         // Dichiarazione di un puntatore a una nuova lista invertita
+    item val;         // Dichiarazione di una variabile temporanea per memorizzare il valore degli elementi
+    rev = new_list(); // Inizializzazione della nuova lista vuota
     // Ciclo finché la lista originale non è vuota
-    while (!emptyList(l))
+    while (!empty_list(l))
     {
-        val = getFirst(l);        // Ottiene il valore del primo elemento della lista originale
-        rev = consList(val, rev); // Aggiunge il valore alla testa della lista invertita
-        l = tailList(l);          // Passa al prossimo elemento della lista originale
+        val = get_first(l);        // Ottiene il valore del primo elemento della lista originale
+        rev = cons_list(val, rev); // Aggiunge il valore alla testa della lista invertita
+        l = tail_list(l);          // Passa al prossimo elemento della lista originale
     }
     return rev; // Restituisce la lista invertita
 }
@@ -100,7 +100,7 @@ list reverseList(list l)
 
 
 */
-item getFirst(list l)
+item get_first(list l)
 {
     item e; // Dichiarazione di una variabile temporanea per memorizzare il primo elemento della lista
 
@@ -125,7 +125,7 @@ void libera_lista(list l)
     {
         list tmp = l;     // salva il puntatore al nodo corrente
         free(tmp->value); // libera la memoria dell'elemento puntato da value
-        l = tailList(l);  // passa al nodo successivo
+        l = tail_list(l); // passa al nodo successivo
         free(tmp);        // libera la memoria del nodo corrente
     }
 }

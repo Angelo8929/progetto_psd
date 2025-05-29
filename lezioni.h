@@ -1,6 +1,6 @@
 #include "list.h" // Tipo astratto per la lista di lezioni
 typedef struct Lezione *Lezione;
-typedef list LezioniList; // Tipo astratto per una lezione
+typedef list lezioni_list; // Tipo astratto per una lezione
 #define NULLITEM 0
 // ===============================
 // Funzioni per la gestione delle lezioni
@@ -26,7 +26,7 @@ Lezione crea_lezione(int id, int capacita_massima, char *nome, char *istruttore,
         lezioni: lista lezioni
 */
 
-void visualizza_lezioni(LezioniList lezioni);
+void visualizza_lezioni(lezioni_list lezioni);
 
 /*
     Funzione: incrementa_posti_occupati

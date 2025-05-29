@@ -10,7 +10,7 @@ typedef void *item;        // tipo opaco per far adattare item a Prenotazione e 
 
 */
 
-list newList();
+list new_list();
 
 /*
     --- funzione empty_list
@@ -20,7 +20,7 @@ list newList();
 
 */
 
-int emptyList(list l);
+int empty_list(list l);
 
 /*
     ---- funzione tail_list
@@ -29,7 +29,7 @@ int emptyList(list l);
         l: la lista collegata
 
 */
-list tailList(list l);
+list tail_list(list l);
 
 /*
     ---- funzione cons_list
@@ -38,7 +38,7 @@ list tailList(list l);
         val: l'elemento da aggiungere, di tipo item
         l: la lista nella quale verrà aggiunto l'elemento
 */
-list consList(item val, list l);
+list cons_list(item val, list l);
 
 /*
     ---- funzione reverse_list
@@ -48,7 +48,7 @@ list consList(item val, list l);
 
 */
 
-list reverseList(list l);
+list reverse_list(list l);
 
 /*
     ---- funzione get_first
@@ -57,7 +57,7 @@ list reverseList(list l);
         l: la lista collegata da cui restituire il primo elemento
 */
 
-item getFirst(list l);
+item get_first(list l);
 
 /*
 

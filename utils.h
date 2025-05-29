@@ -25,7 +25,7 @@ void carica_clienti_file(char *nome_file, hashtable h);
         lezioni: lista collegata dove verranno caricate le lezioni
 */
 
-LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni);
+lezioni_list carica_lezioni_file(char *nome_file, lezioni_list lezioni);
 
 /*
     Funzione: carica_prenotazioni_file
@@ -37,7 +37,7 @@ LezioniList carica_lezioni_file(char *nome_file, LezioniList lezioni);
         lezioni: la lista delle lezioni, dove verrà effettuato il controllo relativo a lezione non esistente
 */
 
-PrenotazioniList carica_prenotazioni_file(char *filename, PrenotazioniList prenotazioni, hashtable h, LezioniList lezioni);
+prenotazioni_list carica_prenotazioni_file(char *filename, prenotazioni_list prenotazioni, hashtable h, lezioni_list lezioni);
 
 /*
     Funzione: cerca_lezione
@@ -48,7 +48,7 @@ PrenotazioniList carica_prenotazioni_file(char *filename, PrenotazioniList preno
 
 */
 
-Lezione cerca_lezione(LezioniList lezioni, int id_lezione);
+Lezione cerca_lezione(lezioni_list lezioni, int id_lezione);
 
 /*
     Funzione: visuaizza_disponibilita_lezioni_file
@@ -58,7 +58,7 @@ Lezione cerca_lezione(LezioniList lezioni, int id_lezione);
         nome_file: il file in cui verranno inserite le informazioni sulla disponibilità delle lezioni
 */
 
-void visualizza_disponibilita_lezioni_file(LezioniList lezioni, char *nome_file);
+void visualizza_disponibilita_lezioni_file(lezioni_list lezioni, char *nome_file);
 
 /*
     Funzione: visualizza_prenotazioni_file
@@ -69,4 +69,4 @@ void visualizza_disponibilita_lezioni_file(LezioniList lezioni, char *nome_file)
 
 */
 
-void visualizza_prenotazioni_file(PrenotazioniList prenotazioni, char *nome_file);
+void visualizza_prenotazioni_file(prenotazioni_list prenotazioni, char *nome_file);

@@ -3,3 +3,4 @@
 3 Anna Verdi 1
 4 Tizio Caio 0
 5 Giuseppe Verdi 1
+6 Lucia Neri 1

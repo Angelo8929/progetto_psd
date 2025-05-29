@@ -22,16 +22,16 @@ struct Prenotazione
 };
 
 /*
-    ---- funzione visualizza_prenotazioni(PrenotazioniList prenotazioni)
+    ---- funzione visualizza_prenotazioni(prenotazioni_list prenotazioni)
         Precondizione: sempre verificata
         Postcondizioni: stampa a video tutte le prenotazioni, scorrendo la lista collegata
 
 
 */
 
-void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
+void visualizza_prenotazioni(prenotazioni_list head_prenotazioni)
 {
-    PrenotazioniList current = head_prenotazioni;
+    prenotazioni_list current = head_prenotazioni;
     if (current == NULL)
     {
         printf("Nessuna prenotazione nel sistema.\n");
@@ -44,20 +44,20 @@ void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
 
     while (current != NULL)
     {
-        Prenotazione p = (Prenotazione)getFirst(current);
+        Prenotazione p = (Prenotazione)get_first(current);
         printf("%-8d | %-10d | %-10d | %-8s\n",
                p->id_prenotazione,
                p->id_cliente,
                p->id_lezione,
                p->orario);
-        current = tailList(current);
+        current = tail_list(current);
     }
     printf("----------------------------------------------------------------------\n\n");
 }
 
 /*
-    --- funzione crea_prenotazione(PrenotazioniList prenotazioni,
-                                   LezioniList lezioni,
+    --- funzione crea_prenotazione(prenotazioni_list prenotazioni,
+                                   lezioni_list lezioni,
                                    hashtable clienti,
                                    int size_tabella_hash,
                                    int id_cliente,
@@ -69,8 +69,8 @@ void visualizza_prenotazioni(PrenotazioniList head_prenotazioni)
 
 */
 Prenotazione crea_prenotazione(
-    PrenotazioniList prenotazioni,
-    LezioniList head_lista,
+    prenotazioni_list prenotazioni,
+    lezioni_list head_lista,
     hashtable h,
     int size_tabella_hash,
     int id_cliente,
@@ -100,30 +100,30 @@ Prenotazione crea_prenotazione(
         return NULL;
     }
 
-    int posti_occupati = get_posti_occupati(lezione_attuale); // Otteniamo il numero di posti occupait
+    int posti_occupati = get_posti_occupati(lezione_attuale); // Otteniamo il numero di posti occupati
 
     int capacita_max_lezione = get_capacita(lezione_attuale); // Otteniamo la capacità massima della lezione
 
     // Verifica se la lezione non accetta più prenotazioni
     if (posti_occupati >= capacita_max_lezione)
     {
-        printf("Errore: La lezione %d è piena (Occupati: %d, Capacità: %d).\n",
-               id_lezione, posti_occupati, capacita_max_lezione);
+        fprintf(stderr, "Errore: La lezione %d e' piena (Occupati: %d, Capacita': %d).\n",
+                id_lezione, posti_occupati, capacita_max_lezione);
         return NULL;
     }
 
     // Verifica se il cliente è già prenotato per questa lezione
-    PrenotazioniList temp = prenotazioni;
+    prenotazioni_list temp = prenotazioni;
     while (temp != NULL)
     {
-        Prenotazione p = (Prenotazione)getFirst(prenotazioni);
+        Prenotazione p = (Prenotazione)get_first(temp);
         if (p->id_cliente == id_cliente &&
             p->id_lezione == id_lezione)
         {
-            printf("Errore: Il cliente %d è già prenotato per la lezione %d.\n", id_cliente, id_lezione);
+            printf("Errore: Il cliente %d e' gia' prenotato per la lezione %d.\n", id_cliente, id_lezione);
             return NULL;
         }
-        temp = tailList(temp);
+        temp = tail_list(temp);
     }
 
     Prenotazione prenotazione = malloc(sizeof(struct Prenotazione)); // Alloca memoria per una nuova prenotazione

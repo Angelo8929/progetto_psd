@@ -19,7 +19,7 @@ struct Lezione
     int capacita_massima;     // Numero massimo di posti disponibili
     char nome[MAX_STR];       // Nome della lezione
     char istruttore[MAX_STR]; // Nome dell'istruttore
-    int postiOccupati;        // Numero attuale di posti occupati
+    int posti_occupati;       // Numero attuale di posti occupati
     char orario[6];           // Orario nel formato "HH:MM"
 };
 
@@ -30,14 +30,14 @@ struct Lezione
 // Aggiunge una lezione in testa alla lista.
 
 /*
-    ---- funzione visualizza_lezioni (LezioniList lezioni)
+    ---- funzione visualizza_lezioni (lezioni_list lezioni)
         precondizione: sempre verificata
         postcondizione: stampa la lista delle lezioni, se != NULL, altrimenti il messaggio "nessuna lezione programmata"
 
 */
 
 // Funzione per la visualizzazione della disponibilità delle lezioni
-void visualizza_lezioni(LezioniList lezioni)
+void visualizza_lezioni(lezioni_list lezioni)
 {
 
     if (lezioni == NULL)
@@ -53,10 +53,10 @@ void visualizza_lezioni(LezioniList lezioni)
     while (curr != NULL) // Itera attraverso la lista di lezioni
     {
 
-        struct Lezione lezioneattuale = *(Lezione)getFirst(curr); // Ottiene la lezione corrente
-        int postiOccupati = lezioneattuale.postiOccupati;         // Ottiene il numero di posti occupati per quella lezione
-        int capacita = lezioneattuale.capacita_massima;           // Ottiene la capacità massima della lezione
-        int postiDisponibili = capacita - postiOccupati;          // Calcola i posti disponibili
+        struct Lezione lezioneattuale = *(Lezione)get_first(curr); // Ottiene la lezione corrente
+        int posti_occupati = lezioneattuale.posti_occupati;        // Ottiene il numero di posti occupati per quella lezione
+        int capacita = lezioneattuale.capacita_massima;            // Ottiene la capacità massima della lezione
+        int postiDisponibili = capacita - posti_occupati;          // Calcola i posti disponibili
 
         // Stampa le informazioni della lezione corrente
         printf("\n--- Dettagli Lezione ---\n");
@@ -64,12 +64,12 @@ void visualizza_lezioni(LezioniList lezioni)
         printf(" ID Lezione                    | %d\n", lezioneattuale.id_lezione);
         printf(" Nome Lezione                  | %s\n", lezioneattuale.nome);
         printf(" Nome Istruttore               | %s\n", lezioneattuale.istruttore);
-        printf(" Posti Attualmente Occupati    | %d\n", postiOccupati);
+        printf(" Posti Attualmente Occupati    | %d\n", posti_occupati);
         printf(" Capacita' Totale Lezione      | %d\n", capacita);
         printf(" Posti Disponibili             | %d\n", postiDisponibili);
         printf("-----------------------------------------------\n\n");
 
-        curr = tailList(curr);
+        curr = tail_list(curr);
     }
 }
 
@@ -94,7 +94,7 @@ Lezione crea_lezione(int id, int capacita_massima, char *nome, char *istruttore,
     lezione->capacita_massima = capacita_massima;
     strcpy(lezione->nome, nome);
     strcpy(lezione->istruttore, istruttore);
-    lezione->postiOccupati = 0;
+    lezione->posti_occupati = 0;
     strcpy(lezione->orario, orario);
     strcpy(lezione->orario, orario);
     return lezione;
@@ -109,7 +109,7 @@ Lezione crea_lezione(int id, int capacita_massima, char *nome, char *istruttore,
 // Incrementa il numero di posti occupati per una lezione specifica
 void incrementa_posti_occupati(Lezione lezione)
 {
-    lezione->postiOccupati++;
+    lezione->posti_occupati++;
 }
 
 /*
@@ -139,14 +139,14 @@ char *get_orario(Lezione lezione)
 /*
     ---- funzione get_posti_occupati(Lezione lezione)
         Precondizione: lezione != NULL
-        Postcondizione: restituisce lezione->postiOccupati
+        Postcondizione: restituisce lezione->posti_occupati
 
 */
 
 // Restituisce il numero di posti occupati per una lezione
 int get_posti_occupati(Lezione lezione)
 {
-    return lezione->postiOccupati;
+    return lezione->posti_occupati;
 }
 
 /*

@@ -4,7 +4,7 @@
 #include "lezioni.h"
 #include "list.h"
 typedef struct Prenotazione *Prenotazione; // Tipo astratto per una prenotazione
-typedef list PrenotazioniList;             // Tipo astratto per la lista di prenotazioni
+typedef list prenotazioni_list;            // Tipo astratto per la lista di prenotazioni
 
 /*
     Funzione: crea_prenotazione
@@ -21,8 +21,8 @@ typedef list PrenotazioniList;             // Tipo astratto per la lista di pren
 
 */
 Prenotazione crea_prenotazione(
-    PrenotazioniList prenotazioni,
-    LezioniList lezioni,
+    prenotazioni_list prenotazioni,
+    lezioni_list lezioni,
     hashtable clienti,
     int size_tabella_hash,
     int id_cliente,
@@ -36,7 +36,7 @@ Prenotazione crea_prenotazione(
         prenotazioni: la lista delle prenotazioni
 */
 // Funzione per visualizzare tutte le prenotazioni nella lista di prenotazioni
-void visualizza_prenotazioni(PrenotazioniList prenotazioni);
+void visualizza_prenotazioni(prenotazioni_list prenotazioni);
 
 /*
     Funzione: get_id_prenotazione

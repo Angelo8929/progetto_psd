@@ -1,4 +1,4 @@
-
+#define TABLE_SIZE 100
 typedef struct hash *hashtable;  // Tipo astratto per la tabella hash
 typedef struct Cliente *Cliente; // Tipo astratto per un Cliente
 

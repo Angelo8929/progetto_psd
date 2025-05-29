@@ -1,0 +1,21 @@
+Prenotazioni: 
+
+ID prenotazione: 3
+ID cliente: 1
+ID lezione: 100
+Orario: 10:00
+
+ID prenotazione: 4
+ID cliente: 3
+ID lezione: 100
+Orario: 10:00
+
+ID prenotazione: 5
+ID cliente: 5
+ID lezione: 100
+Orario: 10:00
+
+--- Disponibilità lezioni dopo le prenotazioni ---
+ID Lezione: 100 | Occupati: 3 | Disponibili: 0 | Capacita: 3 | Orario: 10:00
+ID Lezione: 200 | Occupati: 0 | Disponibili: 2 | Capacita: 2 | Orario: 11:00
+ID Lezione: 300 | Occupati: 0 | Disponibili: 5 | Capacita: 5 | Orario: 12:00

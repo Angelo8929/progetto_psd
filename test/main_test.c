@@ -8,6 +8,13 @@
 #include <stdlib.h>
 #define M 30
 
+/*
+    ---- funzione confronta_file(char* file 1, char* file2)
+        Precondizioni: file1 e file2 != NULL
+        Postcondizioni: effettuando un confronto carattere per carattere, restituisce 1 se i due file sono uguali, 0 altrimenti
+
+*/
+
 int confronta_file(const char *file1, const char *file2)
 {
     FILE *f1 = fopen(file1, "r");
@@ -16,9 +23,9 @@ int confronta_file(const char *file1, const char *file2)
         return 0;
     char riga1[M], riga2[M];
     int uguali = 1;
-    while (fgets(riga1, M, f1) && fgets(riga2, M, f2))
+    while (fgets(riga1, M, f1) && fgets(riga2, M, f2)) // cicla finche uno dei due puntatori non diventa NULL
     {
-        if (strcmp(riga1, riga2) != 0)
+        if (strcmp(riga1, riga2) != 0) // se rileva differenze tra i caratteri i file non sono uguali
         {
             uguali = 0;
             break;
@@ -32,6 +39,13 @@ int confronta_file(const char *file1, const char *file2)
     return uguali;
 }
 
+/*
+    ---- funzione run_test_case(char* tc_id)
+        Precondizioni: tc_id != NULL
+        Postcondizioni: restituisce 1 se il test_case è andato a buon fine (richiamando confronta_file), 0 altrimenti
+
+*/
+
 int run_test_case(char *tc_id)
 {
     char input_fname[M], output_fname[M], oracle_fname[M];
@@ -41,9 +55,9 @@ int run_test_case(char *tc_id)
     sprintf(output_fname, "%s_output.txt", tc_id);
     sprintf(oracle_fname, "%s_oracle.txt", tc_id);
 
-    hashtable clienti = new_hashtable(100);    // Crea una hashtable per i clienti vuota di 100 elementi
-    LezioniList lezioni = newList();           // Crea una lista di lezioni vuota
-    PrenotazioniList prenotazioni = newList(); // Crea una lista di prenotazioni vuota
+    hashtable clienti = new_hashtable(TABLE_SIZE); // Crea una hashtable per i clienti vuota di 100 elementi
+    lezioni_list lezioni = new_list();             // Crea una lista di lezioni vuota
+    prenotazioni_list prenotazioni = new_list();   // Crea una lista di prenotazioni vuota
 
     lezioni = carica_lezioni_file("../lezioni.txt", lezioni);
     carica_clienti_file("../clienti.txt", clienti);
@@ -87,5 +101,5 @@ int main(int argc, char **argv)
     fclose(test_suite);
     fclose(result);
 
-    printf("Test suite eseguita. Visualizza il file result.txt per sapere l'esito :)\n");
+    printf("Test suite eseguita. Visualizza il file result.txt per sapere l'esito\n");
 }

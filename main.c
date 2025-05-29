@@ -9,9 +9,9 @@
 
 int main()
 {
-    hashtable clienti = new_hashtable(100);    // Crea una hashtable per i clienti vuota di 100 elementi
-    LezioniList lezioni = newList();           // Crea una lista di lezioni vuota
-    PrenotazioniList prenotazioni = newList(); // Crea una lista di prenotazioni vuota
+    hashtable clienti = new_hashtable(TABLE_SIZE); // Crea una hashtable per i clienti vuota di 100 elementi
+    lezioni_list lezioni = new_list();             // Crea una lista di lezioni vuota
+    prenotazioni_list prenotazioni = new_list();   // Crea una lista di prenotazioni vuota
     int clienti_caricati = 0;
 
     int scelta; // Variabile per la scelta dell'utente
@@ -19,7 +19,7 @@ int main()
     // Menù Principale per l'utente
     do
     {
-        printf("========MENU======================\n");
+        printf("=================MENU====================\n");
         printf("\n1. Carica lezioni da file");
         printf("\n2. Carica clienti da file");
         printf("\n3. Carica prenotazioni da file (racchiude tutti i test case)");
@@ -42,10 +42,12 @@ int main()
                 printf("----------------------------------\n");
                 printf("Lezioni caricate con successo\n");
                 printf("----------------------------------\n");
+                printf("\n");
             }
             else
             {
                 printf("Lezioni gia' caricate\n");
+                printf("\n");
             }
             break;
 
@@ -58,12 +60,14 @@ int main()
                 printf("----------------------------------\n");
                 printf("Clienti caricati con successo\n");
                 printf("----------------------------------\n");
+                printf("\n");
             }
             else
             {
                 printf("----------------------------------\n");
                 printf("Clienti gia' caricati\n");
                 printf("----------------------------------\n");
+                printf("\n");
             }
             break;
 
@@ -79,6 +83,7 @@ int main()
                 printf("----------------------------------\n");
                 printf("Prenotazioni gia' caricate\n");
                 printf("----------------------------------\n");
+                printf("\n");
             }
             break;
 
@@ -103,7 +108,8 @@ int main()
             break;
 
         default:
-            printf("Scelta non valida");
+            printf("Scelta non valida\n");
+            printf("\n");
         }
     } while (scelta != 0);
 
