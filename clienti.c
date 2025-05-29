@@ -91,7 +91,7 @@ int hash_fun(int k, int m)
 
 Cliente crea_cliente(int id, char nome[], char cognome[], int abbonamento)
 {
-    Cliente nuovo = malloc(sizeof(struct Cliente));
+    Cliente nuovo = malloc(sizeof(struct Cliente)); // inserire controllo NULL
     nuovo->id = id;
     strcpy(nuovo->nome, nome);
     strcpy(nuovo->cognome, cognome);
