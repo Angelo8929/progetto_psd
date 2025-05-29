@@ -18,4 +18,4 @@ Per eseguire la versione automatizzata (senza menu):
 
 2. `cd test`
 
-3. `./main test_suite.txt result.txt`
+3. `./main_test test_suite.txt result.txt`
